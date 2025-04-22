@@ -1,13 +1,13 @@
 {
-  "name": "portfolio",
-  "version": "1.0.0",
-  "description": "Personal portfolio website",
-  "type": "module",
-  "scripts": {
-    "dev": "npx @tailwindcss/cli -i ./styles.css -o ./dist/styles.css --watch",
-    "build": "npx @tailwindcss/cli -i ./styles.css -o ./dist/styles.css --minify"
-  },
-  "devDependencies": {
-    "@tailwindcss/cli": "^4.1.4"
-  }
-} 
+	"name": "portfolio",
+	"version": "1.0.0",
+	"description": "Personal portfolio website",
+	"type": "module",
+	"scripts": {
+		"dev": "npx @tailwindcss/cli -i ./src/styles.css -o ./dist/styles.css --watch",
+		"build": "npx @tailwindcss/cli -i ./src/styles.css -o ./dist/styles.css --minify"
+	},
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.1.4"
+	}
+}
