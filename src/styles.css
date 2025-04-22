@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light theme variables */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.2 0 0);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.2 0 0);
+  --color-primary: oklch(0.2 0 0);
+  --color-primary-foreground: oklch(0.98 0 0);
+  --color-secondary: oklch(0.96 0 0);
+  --color-secondary-foreground: oklch(0.2 0 0);
+  --color-muted: oklch(0.96 0 0);
+  --color-muted-foreground: oklch(0.46 0 0);
+  --color-accent: oklch(0.96 0 0);
+  --color-accent-foreground: oklch(0.2 0 0);
+  --color-destructive: oklch(0.6 0.2 0);
+  --color-destructive-foreground: oklch(0.98 0 0);
+  --color-border: oklch(0.9 0 0);
+}
+
+/* Dark theme variables */
+:root[data-theme="dark"] {
+  --color-background: oklch(0.2 0 0);
+  --color-foreground: oklch(0.98 0 0);
+  --color-card: oklch(0.2 0 0);
+  --color-card-foreground: oklch(0.98 0 0);
+  --color-primary: oklch(0.98 0 0);
+  --color-primary-foreground: oklch(0.2 0 0);
+  --color-secondary: oklch(0.16 0 0);
+  --color-secondary-foreground: oklch(0.98 0 0);
+  --color-muted: oklch(0.16 0 0);
+  --color-muted-foreground: oklch(0.65 0 0);
+  --color-accent: oklch(0.16 0 0);
+  --color-accent-foreground: oklch(0.98 0 0);
+  --color-destructive: oklch(0.3 0.2 0);
+  --color-destructive-foreground: oklch(0.98 0 0);
+  --color-border: oklch(0.16 0 0);
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-foreground);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-accent);
+}
+
+.theme-toggle svg {
+  display: block;
+}
