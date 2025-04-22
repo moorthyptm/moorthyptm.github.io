@@ -42,4 +42,43 @@ gsap.from(".gsap-text", {
     opacity: 0,
     delay: 0.5,
     ease: "power2.out"
+});
+
+// Add typing tap animation for left hand only
+gsap.to(".left-hand", {
+    y: 5,
+    duration: 0.15,
+    ease: "power1.inOut",
+    yoyo: true,
+    repeat: -1,
+    repeatDelay: 0.2
+});
+
+// Add mouse-move animation for right hand and mouse
+gsap.to([".right-hand", ".mouse"], {
+    x: 20,
+    duration: 1,
+    ease: "power1.inOut",
+    yoyo: true,
+    repeat: -1,
+    stagger: 0.1
+});
+
+// Add cursor blink animation
+gsap.to(".cursor-blink", {
+    opacity: 0,
+    duration: 0.5,
+    ease: "power2.out",
+    repeat: -1,
+    yoyo: true
+});
+
+// Add CPU fan spin animation
+gsap.to(".fan-blades", {
+    rotation: 360,
+    transformOrigin: "center center",
+    transformBox: "fillBox",
+    ease: "linear",
+    repeat: -1,
+    duration: 1
 }); 

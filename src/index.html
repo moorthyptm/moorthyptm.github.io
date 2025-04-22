@@ -41,28 +41,79 @@
                 <!-- Illustration container -->
                 <div class="illustration-container flex-1">
                     <svg width="100%" height="100%" viewBox="0 0 400 300" class="w-full h-full">
+                        <defs>
+                            <!-- Glass panel gradient for CPU front -->
+                            <linearGradient id="cpuGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="rgba(200,200,255,0.4)" />
+                                <stop offset="100%" stop-color="rgba(150,150,200,0.2)" />
+                            </linearGradient>
+                            <!-- Radial gradient for fans -->
+                            <radialGradient id="fanGradient" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#89CFF0" />
+                                <stop offset="100%" stop-color="#1E90FF" />
+                            </radialGradient>
+                        </defs>
                         <!-- Desk -->
                         <rect x="50" y="200" width="300" height="20" fill="#4B5563" class="desk" />
                         <rect x="50" y="200" width="300" height="5" fill="#374151" class="desk-edge" />
+                        <!-- Add desk legs -->
+                        <rect x="80" y="220" width="10" height="40" fill="#4B5563" class="desk-leg" />
+                        <rect x="310" y="220" width="10" height="40" fill="#4B5563" class="desk-leg" />
+                        
+                        <!-- Gaming PC CPU tower -->
+                        <g class="cpu">
+                            <!-- Front face -->
+                            <rect class="cpu-front" x="315" y="120" width="30" height="80" rx="4" fill="url(#cpuGlass)" />
+                            <!-- Side face -->
+                            <path class="cpu-side" d="M315,120 L305,130 L305,200 L315,200 Z" fill="#9ca3af" />
+                            <!-- Fans -->
+                            <g class="fan fan1">
+                                <g class="fan-blades">
+                                    <rect x="328" y="137" width="4" height="16" fill="#E5E7EB" rx="1" />
+                                    <rect x="322" y="142" width="16" height="4" fill="#E5E7EB" rx="1" />
+                                </g>
+                                <circle cx="330" cy="145" r="8" fill="none" stroke="url(#fanGradient)" stroke-width="2" stroke-opacity="1" />
+                            </g>
+                            <g class="fan fan2">
+                                <g class="fan-blades">
+                                    <rect x="328" y="177" width="4" height="16" fill="#E5E7EB" rx="1" />
+                                    <rect x="322" y="182" width="16" height="4" fill="#E5E7EB" rx="1" />
+                                </g>
+                                <circle cx="330" cy="185" r="8" fill="none" stroke="url(#fanGradient)" stroke-width="2" stroke-opacity="1" />
+                            </g>
+                        </g>
                         
                         <!-- Monitor -->
                         <g class="screen-glow">
-                            <!-- Monitor stand -->
-                            <rect x="190" y="200" width="40" height="5" fill="#6B7280" />
-                            <rect x="200" y="205" width="20" height="15" fill="#6B7280" />
+                            <!-- Stand foot sits on desk (y=200) -->
+                            <rect x="193" y="200" width="40" height="5" fill="#6B7280" />
+                            <!-- Stand post connecting to foot -->
+                            <rect x="203" y="185" width="20" height="15" fill="#6B7280" />
                             
                             <!-- Monitor frame -->
-                            <rect x="150" y="120" width="120" height="80" rx="4" fill="#6B7280" />
-                            <rect x="155" y="125" width="110" height="70" rx="2" fill="#1F2937" />
+                            <rect x="153" y="110" width="120" height="80" rx="4" fill="#6B7280" />
+                            <rect x="158" y="115" width="110" height="70" rx="2" fill="#1F2937" />
                             
                             <!-- Screen content -->
-                            <rect x="160" y="130" width="60" height="2" fill="#60A5FA" opacity="0.8" />
-                            <rect x="160" y="136" width="40" height="2" fill="#60A5FA" opacity="0.8" />
-                            <rect x="160" y="142" width="70" height="2" fill="#60A5FA" opacity="0.8" />
-                            <rect x="160" y="148" width="2" height="8" fill="#60A5FA" class="cursor-blink" />
+                            <rect x="163" y="120" width="60" height="2" fill="#60A5FA" opacity="0.8" />
+                            <rect x="163" y="126" width="40" height="2" fill="#60A5FA" opacity="0.8" />
+                            <rect x="163" y="132" width="70" height="2" fill="#60A5FA" opacity="0.8" />
+                            <rect x="163" y="138" width="2" height="8" fill="#60A5FA" class="cursor-blink" />
                             
                             <!-- Monitor bezel -->
-                            <rect x="150" y="120" width="120" height="80" rx="4" fill="none" stroke="#4B5563" stroke-width="2" />
+                            <rect x="153" y="110" width="120" height="80" rx="4" fill="none" stroke="#4B5563" stroke-width="2" />
+                        </g>
+                        
+                        <!-- Speakers on desk -->
+                        <g class="speaker speaker-left">
+                            <rect x="130" y="170" width="15" height="30" rx="2" fill="#6B7280" />
+                            <circle cx="137.5" cy="180" r="4" fill="#374151" />
+                            <circle cx="137.5" cy="195" r="3" fill="#374151" />
+                        </g>
+                        <g class="speaker speaker-right">
+                            <rect x="280" y="170" width="15" height="30" rx="2" fill="#6B7280" />
+                            <circle cx="287.5" cy="180" r="4" fill="#374151" />
+                            <circle cx="287.5" cy="195" r="3" fill="#374151" />
                         </g>
                         
                         <!-- Keyboard -->
@@ -98,8 +149,18 @@
                             
                             <!-- Arms -->
                             <g class="typing-hands">
-                                <path d="M195,190 C185,190 180,200 175,210" stroke="#4B5563" stroke-width="5" fill="none" />
-                                <path d="M225,190 C235,190 240,200 245,210" stroke="#4B5563" stroke-width="5" fill="none" />
+                                <!-- Connect shoulders to hands -->
+                                <path class="left-arm" d="M210,180 C205,185 200,195 180,200" stroke="#4B5563" stroke-width="5" fill="none" />
+                                <path class="right-arm" d="M210,180 C215,185 225,190 232,200" stroke="#4B5563" stroke-width="5" fill="none" />
+                                <g class="hand left-hand">
+                                    <rect x="180" y="190" width="16" height="10" rx="3" fill="#4B5563" />
+                                    <rect x="182" y="195" width="8" height="5" rx="2" fill="#6B7280" />
+                                </g>
+                                <g class="hand right-hand">
+                                    <rect x="220" y="190" width="14" height="8" rx="4" fill="#4B5563" />
+                                    <rect x="222" y="193" width="6" height="4" rx="2" fill="#6B7280" />
+                                    <circle class="mouse" cx="230" cy="210" r="5" fill="#374151" />
+                                </g>
                             </g>
                         </g>
                         
@@ -108,6 +169,21 @@
                             <rect x="190" y="205" width="40" height="40" fill="#6B7280" />
                             <rect x="195" y="210" width="30" height="30" fill="#4B5563" />
                             <rect x="190" y="205" width="40" height="5" fill="#374151" />
+                            <!-- Chair legs -->
+                            <rect x="195" y="245" width="5" height="20" fill="#4B5563" />
+                            <rect x="225" y="245" width="5" height="20" fill="#4B5563" />
+                        </g>
+
+                        <!-- MacBook Pro on desk facing person -->
+                        <g class="laptop" transform="translate(0,11)">
+                            <!-- Side face for 3D effect -->
+                            <path d="M60,196 L110,196 L105,191 L55,191 Z" fill="#9ca3af" />
+                            <!-- Base profile -->
+                            <rect x="60" y="185" width="50" height="4" rx="1" fill="#d1d5db" />
+                            <!-- Screen -->
+                            <rect x="62" y="155" width="46" height="30" rx="2" fill="#1F2937" stroke="#4B5563" stroke-width="1" />
+                            <!-- Keyboard deck -->
+                            <rect x="62" y="185" width="46" height="8" fill="#e5e7eb" />
                         </g>
                     </svg>
                 </div>
