@@ -1,7 +1,10 @@
-// Register ScrollTrigger and other GSAP plugins
+// Register GSAP plugins required for animations
 gsap.registerPlugin(ScrollTrigger);
 
-// Enhanced GSAP Animations
+/**
+ * Animates the hero section elements with a staggered entrance
+ * Uses GSAP timeline for coordinated animations of title, subtitle and illustration
+ */
 const animateHeroSection = () => {
   const tl = gsap.timeline();
   
@@ -16,16 +19,50 @@ const animateHeroSection = () => {
     y: 50,
     opacity: 0,
     ease: "power3.out"
-  }, "-=0.8")
+  }, "-=0.8") // Overlap with previous animation
   .from(".illustration-container", {
     duration: 2,
-    xPercent: 100,  // Changed from -100 to 100 to animate from right to left
+    xPercent: 100,
     opacity: 0,
     ease: "power3.inOut"
   }, "-=0.8");
 };
 
-// Smooth scroll navigation
+/**
+ * Initializes navigation section tracking
+ * Updates active nav item based on current scroll position
+ */
+const initNavTracking = () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+  const updateActiveNav = () => {
+    const scrollY = window.scrollY;
+    
+    sections.forEach(section => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 100; // Offset for fixed header
+      const sectionId = section.getAttribute('id');
+      
+      if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
+          link.classList.remove('text-accent');
+          if(link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('text-accent');
+          }
+        });
+      }
+    });
+  };
+
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav(); // Initial check
+};
+
+/**
+ * Implements smooth scroll navigation with header offset
+ * Uses GSAP's ScrollToPlugin for smooth animation
+ */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
@@ -35,7 +72,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         duration: 1,
         scrollTo: {
           y: target,
-          offsetY: 80
+          offsetY: 80 // Offset for fixed header
         },
         ease: "power3.inOut"
       });
@@ -43,7 +80,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Project cards animation
+/**
+ * Animates project cards with staggered reveal on scroll
+ * Uses ScrollTrigger for scroll-based animations
+ */
 const setupProjectAnimations = () => {
   gsap.utils.toArray(".project-card").forEach((card, i) => {
     gsap.from(card, {
@@ -61,7 +101,10 @@ const setupProjectAnimations = () => {
   });
 };
 
-// Parallax effect for background elements
+/**
+ * Sets up parallax effect for background elements
+ * Elements with data-speed attribute will move at different speeds while scrolling
+ */
 const setupParallaxEffects = () => {
   gsap.utils.toArray("[data-speed]").forEach(el => {
     gsap.to(el, {
@@ -77,7 +120,10 @@ const setupParallaxEffects = () => {
   });
 };
 
-// Handle scroll indicator visibility
+/**
+ * Manages scroll indicator visibility
+ * Fades out the scroll indicator when user has scrolled past the hero section
+ */
 const handleScrollIndicator = () => {
   const scrollIndicator = document.querySelector('.scroll-indicator');
   if (!scrollIndicator) return;
@@ -94,15 +140,16 @@ const handleScrollIndicator = () => {
   });
 };
 
-// Initialize all animations
+// Initialize all animations and functionality on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   animateHeroSection();
   setupProjectAnimations();
   setupParallaxEffects();
   handleScrollIndicator();
+  initNavTracking();
 });
 
-// Store timeline references for pausing/resuming
+// Store animation timelines for performance optimization
 const typingAnimation = gsap.to(".left-hand .fingers rect", {
     y: 2,
     duration: 0.1,
@@ -116,6 +163,10 @@ const typingAnimation = gsap.to(".left-hand .fingers rect", {
     }
 });
 
+/**
+ * Mouse movement animation for the illustration
+ * Creates a natural-looking mouse tracking motion
+ */
 const mouseMovement = gsap.to([".right-hand", ".mouse-element"], {
     x: 5,
     duration: 2,
@@ -124,6 +175,10 @@ const mouseMovement = gsap.to([".right-hand", ".mouse-element"], {
     repeat: -1
 });
 
+/**
+ * Browser content animation
+ * Simulates dynamic content loading in the illustration
+ */
 const browserContentAnimation = gsap.to(".browser-content rect", {
     width: "random(10, 17)",
     duration: "random(0.5, 1.5)",
@@ -136,6 +191,10 @@ const browserContentAnimation = gsap.to(".browser-content rect", {
     }
 });
 
+/**
+ * Code inspector animation
+ * Creates a typing effect in the code panel
+ */
 const codeInspectorAnimation = gsap.to(".code-inspector rect", {
     width: "random(14, 17)",
     duration: 0.3,
@@ -148,7 +207,7 @@ const codeInspectorAnimation = gsap.to(".code-inspector rect", {
     }
 });
 
-// Add cursor blink animation
+// Add cursor blink animation for code editor effect
 gsap.to(".cursor-blink", {
     opacity: 0,
     duration: 0.8,
@@ -157,7 +216,7 @@ gsap.to(".cursor-blink", {
     yoyo: true
 });
 
-// Add CPU fan spin animation
+// Add continuous CPU fan rotation animation
 gsap.to(".fan-blades", {
     rotation: 360,
     transformOrigin: "center center",
@@ -167,19 +226,23 @@ gsap.to(".fan-blades", {
     duration: 1
 });
 
-// Check for reduced motion preference
+// Check for user's motion preferences
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Connect button animation with head turning and phone screen
+/**
+ * LinkedIn connection button interaction
+ * Manages animations for head turning and phone screen state
+ */
 const connectBtn = document.querySelector('.connect-btn');
 const personHead = document.querySelector('.person circle');
 const phoneScreen = document.querySelector('.phone-screen');
 const linkedinContent = document.querySelector('.linkedin-content');
 const originalHeadPosition = { x: 210, cy: 155 };
 
+// Handle hover interactions for LinkedIn button
 connectBtn.addEventListener('mouseenter', () => {
     if (!prefersReducedMotion) {
-        // Turn head
+        // Animate head turn
         gsap.to(personHead, {
             attr: { cx: 200 },
             duration: 0.4,
@@ -199,7 +262,7 @@ connectBtn.addEventListener('mouseenter', () => {
             ease: "power2.out"
         });
 
-        // Button effect
+        // Button hover effect
         gsap.to(connectBtn, {
             scale: 1.05,
             z: 20,
@@ -211,7 +274,7 @@ connectBtn.addEventListener('mouseenter', () => {
             ease: "power2.out"
         });
 
-        // Pause all laptop screen and interaction animations
+        // Pause laptop animations during interaction
         typingAnimation.pause();
         mouseMovement.pause();
         browserContentAnimation.pause();
@@ -219,16 +282,17 @@ connectBtn.addEventListener('mouseenter', () => {
     }
 });
 
+// Reset animations on hover out
 connectBtn.addEventListener('mouseleave', () => {
     if (!prefersReducedMotion) {
-        // Return head position
+        // Reset head position
         gsap.to(personHead, {
             attr: { cx: originalHeadPosition.x },
             duration: 0.4,
             ease: "power2.out"
         });
 
-        // Hide LinkedIn interface
+        // Reset phone screen
         gsap.to(phoneScreen, {
             fill: "#000000",
             duration: 0.4,
@@ -241,7 +305,7 @@ connectBtn.addEventListener('mouseleave', () => {
             ease: "power2.out"
         });
 
-        // Reset button
+        // Reset button state
         gsap.to(connectBtn, {
             scale: 1,
             z: 0,
@@ -251,10 +315,121 @@ connectBtn.addEventListener('mouseleave', () => {
             ease: "power2.out"
         });
 
-        // Resume all laptop screen and interaction animations
+        // Resume laptop animations
         typingAnimation.resume();
         mouseMovement.resume();
         browserContentAnimation.resume();
         codeInspectorAnimation.resume();
     }
+});
+
+/**
+ * About section card animations
+ * Adds entrance animations for about section elements
+ */
+gsap.utils.toArray('#about .bg-card\\/70').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: {
+      trigger: card,
+      start: "top bottom-=100",
+      toggleActions: "play none none reverse"
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    delay: i * 0.2,
+    ease: "power3.out"
+  });
+});
+
+/**
+ * Tech stack icon animations
+ * Adds rotating entrance animation for technology icons
+ */
+gsap.utils.toArray('#about .w-12').forEach((icon) => {
+  gsap.from(icon, {
+    scrollTrigger: {
+      trigger: icon,
+      start: "top bottom-=50",
+      toggleActions: "play none none reverse"
+    },
+    scale: 0,
+    rotation: -180,
+    opacity: 0,
+    duration: 0.8,
+    ease: "back.out(1.7)"
+  });
+});
+
+/**
+ * Tech stack tag animations
+ * Adds scale-in animation for technology tags
+ */
+gsap.from('#about .flex-wrap .px-4', {
+  scrollTrigger: {
+    trigger: '#about .flex-wrap',
+    start: "top bottom-=50",
+    toggleActions: "play none none reverse"
+  },
+  scale: 0,
+  opacity: 0,
+  duration: 0.5,
+  stagger: 0.1,
+  ease: "back.out(1.7)"
+});
+
+/**
+ * Tech stack card interactions
+ * Manages hover and click animations for technology cards
+ */
+const techCards = document.querySelectorAll('#about .grid-cols-2 > div');
+techCards.forEach(card => {
+  // Hover animation
+  card.addEventListener('mouseenter', () => {
+    gsap.to(card, {
+      y: -5,
+      scale: 1.05,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+    
+    // Icon animation
+    const icon = card.querySelector('.w-12');
+    gsap.to(icon, {
+      scale: 1.1,
+      rotate: 5,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+  });
+
+  // Reset on mouse leave
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, {
+      y: 0,
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+    
+    // Reset icon
+    const icon = card.querySelector('.w-12');
+    gsap.to(icon, {
+      scale: 1,
+      rotate: 0,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+  });
+
+  // Click feedback animation
+  card.addEventListener('click', () => {
+    gsap.to(card, {
+      scale: 0.95,
+      duration: 0.1,
+      ease: "power2.out",
+      yoyo: true,
+      repeat: 1
+    });
+  });
 });

@@ -1,32 +1,50 @@
+/* Theme configuration using OKLCH color space for better color consistency and perceptual uniformity */
 @import "tailwindcss";
 
 @theme {
+  /* Background and foreground colors using OKLCH for better color reproduction */
   --color-background: oklch(0.98 0.01 240);
   --color-foreground: oklch(0.2 0.02 260);
+  
+  /* Card and surface colors */
   --color-card: oklch(0.99 0.01 250);
   --color-card-foreground: oklch(0.2 0.02 260);
+  
+  /* Primary theme colors */
   --color-primary: oklch(0.55 0.25 250);
   --color-primary-foreground: oklch(0.98 0.01 240);
+  
+  /* Secondary theme colors */
   --color-secondary: oklch(0.6 0.25 270);
   --color-secondary-foreground: oklch(0.98 0.01 240);
+  
+  /* Muted colors for subtle UI elements */
   --color-muted: oklch(0.9 0.05 260);
   --color-muted-foreground: oklch(0.3 0.15 270);
+  
+  /* Accent colors for highlighting and CTAs */
   --color-accent: oklch(0.7 0.25 220);
   --color-accent-foreground: oklch(0.98 0.01 240);
+  
+  /* Destructive colors for warnings and errors */
   --color-destructive: oklch(0.65 0.3 30);
   --color-destructive-foreground: oklch(0.98 0.01 240);
+  
+  /* Border and box styling variables */
   --color-border: oklch(0.85 0.05 250);
   --box-shadow: rgba(98, 88, 255, 0.2);
   --box-background: oklch(0.99 0.01 250);
   --box-side: oklch(0.95 0.03 260);
   --box-top: oklch(0.98 0.02 255);
+  
+  /* Glass effect variables */
   --glass-bg: rgba(255, 255, 255, 0.12);
   --glass-border: rgba(255, 255, 255, 0.15);
   --glass-shadow: 0 8px 32px 0 rgba(89, 86, 255, 0.3);
   --glass-backdrop: blur(12px);
 }
 
-/* Connect button styles */
+/* Connect button styles with 3D hover effect */
 .connect-btn {
   transform-origin: center;
   will-change: transform;
@@ -34,6 +52,7 @@
   box-shadow: 0 4px 6px -1px var(--box-shadow);
 }
 
+/* Shine effect animation on hover */
 .connect-btn:before {
   content: "";
   position: absolute;
@@ -55,7 +74,7 @@
   left: 100%;
 }
 
-/* Modern glass nav styles */
+/* Glass nav styles with backdrop filter */
 nav {
   background: var(--glass-bg) !important;
   backdrop-filter: var(--glass-backdrop);
@@ -64,7 +83,7 @@ nav {
   box-shadow: var(--glass-shadow);
 }
 
-/* Modern card styles */
+/*Card styles with glass morphism effect */
 .bg-card\/70 {
   background: var(--glass-bg) !important;
   backdrop-filter: var(--glass-backdrop);
@@ -79,13 +98,13 @@ nav {
   ) !important;
 }
 
-/* Improved hover effects */
+/* Enhanced hover effects with smooth transitions */
 .connect-btn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: var(--glass-shadow), 0 15px 30px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* GSAP-specific classes */
+/* GSAP animation utility classes */
 .fade-up {
   opacity: 0;
   transform: translateY(30px);
@@ -106,7 +125,7 @@ nav {
   transform: translateX(50px);
 }
 
-/* Gradient text animation */
+/* Gradient text animation with seamless loop */
 .gradient-text {
   background: linear-gradient(
     270deg,
@@ -133,12 +152,13 @@ nav {
   }
 }
 
-/* Scroll indicator styles */
+/* Scroll indicator styles with fade-in animation */
 .scroll-indicator {
   animation: fadeIn 1s ease-out 1s forwards;
   opacity: 0;
 }
 
+/* Stylized mouse scroll indicator */
 .mouse {
   width: 26px;
   height: 42px;
@@ -148,6 +168,7 @@ nav {
   margin: 0 auto 12px;
 }
 
+/* Animated mouse wheel */
 .wheel {
   width: 4px;
   height: 8px;
@@ -160,6 +181,7 @@ nav {
   animation: mouseWheel 1.6s ease-in-out infinite;
 }
 
+/* Scroll arrow indicators */
 .scroll-arrows {
   display: flex;
   flex-direction: column;
@@ -167,6 +189,7 @@ nav {
   gap: 5px;
 }
 
+/* Animated scroll arrows */
 .scroll-arrows span {
   display: block;
   width: 10px;
@@ -177,10 +200,12 @@ nav {
   animation: arrowBounce 1.6s infinite;
 }
 
+/* Staggered animation for multiple arrows */
 .scroll-arrows span:nth-child(2) {
   animation-delay: 0.2s;
 }
 
+/* Mouse wheel scroll animation */
 @keyframes mouseWheel {
   0% {
     opacity: 1;
@@ -192,6 +217,7 @@ nav {
   }
 }
 
+/* Bouncing arrow animation */
 @keyframes arrowBounce {
   0% {
     opacity: 0;
@@ -206,6 +232,7 @@ nav {
   }
 }
 
+/* Fade in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -213,4 +240,28 @@ nav {
   to {
     opacity: 1;
   }
+}
+
+/* Tech stack card animations and interactions */
+.tech-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+ 
+}
+
+/* Hover effect with subtle 3D transformation */
+.tech-card:hover {
+  transform: translateY(-5px) perspective(1000px) rotateX(5deg);
+}
+
+/* Tech stack icon hover effects */
+.tech-card svg {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.tech-card:hover svg {
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.2));
+  transform: translateZ(10px);
 }
