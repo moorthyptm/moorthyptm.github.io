@@ -1,47 +1,89 @@
-// Theme handling
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    updateIcons(newTheme);
-}
+// Register ScrollTrigger and other GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
-function updateIcons(theme) {
-    const sunIcon = document.querySelector('.sun');
-    const moonIcon = document.querySelector('.moon');
-    
-    if (theme === 'dark') {
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
-    } else {
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-    }
-}
-
-// Initialize theme and icons
-const theme = localStorage.getItem('theme') || 
-    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-document.documentElement.setAttribute('data-theme', theme);
-updateIcons(theme);
-
-// GSAP Animations
-gsap.from(".gsap-title", {
-    duration: 1,
-    y: -50,
+// Enhanced GSAP Animations
+const animateHeroSection = () => {
+  const tl = gsap.timeline();
+  
+  tl.from(".hero-title", {
+    duration: 1.2,
+    y: 100,
     opacity: 0,
-    ease: "power2.out"
-});
-
-gsap.from(".gsap-text", {
+    ease: "power4.out"
+  })
+  .from(".hero-subtitle", {
     duration: 1,
     y: 50,
     opacity: 0,
-    delay: 0.5,
-    ease: "power2.out"
+    ease: "power3.out"
+  }, "-=0.8")
+ 
+  .from(".illustration-container", {
+    duration: 1.2,
+    x: 100,
+    opacity: 0,
+    ease: "power3.out",
+    rotation: 10
+  }, "-=0.8");
+};
+
+// Smooth scroll navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: {
+          y: target,
+          offsetY: 80
+        },
+        ease: "power3.inOut"
+      });
+    }
+  });
+});
+
+// Project cards animation
+const setupProjectAnimations = () => {
+  gsap.utils.toArray(".project-card").forEach((card, i) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: "top bottom-=50",
+        toggleActions: "play none none reverse"
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.2,
+      ease: "power3.out"
+    });
+  });
+};
+
+// Parallax effect for background elements
+const setupParallaxEffects = () => {
+  gsap.utils.toArray("[data-speed]").forEach(el => {
+    gsap.to(el, {
+      y: (i, target) => (ScrollTrigger.maxScroll(window) - target.offsetTop) * target.dataset.speed,
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+  });
+};
+
+// Initialize all animations
+document.addEventListener("DOMContentLoaded", () => {
+  animateHeroSection();
+  setupProjectAnimations();
+  setupParallaxEffects();
 });
 
 // Store timeline references for pausing/resuming
@@ -107,19 +149,6 @@ gsap.to(".fan-blades", {
     ease: "linear",
     repeat: -1,
     duration: 1
-});
-
-// LinkedIn content animation
-gsap.to(".linkedin-content rect", {
-    width: "random(10, 12)",
-    duration: "random(0.8, 1.2)",
-    ease: "power1.inOut",
-    yoyo: true,
-    repeat: -1,
-    stagger: {
-        amount: 0.5,
-        from: "start"
-    }
 });
 
 // Check for reduced motion preference
