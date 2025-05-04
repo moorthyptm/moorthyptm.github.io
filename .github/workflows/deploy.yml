@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Set this to your default branch
+      - master  # Changed to master branch
   workflow_dispatch:
 
 permissions:
@@ -31,12 +31,9 @@ jobs:
         
       - name: Prepare dist directory
         run: |
-          mkdir -p dist
-          cp -f src/index.html dist/ || exit 1
-          cp -f src/script.js dist/ || exit 1
-          cp -f dist/styles.css dist/ || exit 1
-        shell: bash
-        
+          cp src/index.html dist/
+          cp src/script.js dist/
+          
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
