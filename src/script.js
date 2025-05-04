@@ -1,5 +1,5 @@
 // Register GSAP plugins required for animations
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 /**
  * Animates the hero section elements with a staggered entrance
@@ -8,19 +8,19 @@ gsap.registerPlugin(ScrollTrigger);
 const animateHeroSection = () => {
   const tl = gsap.timeline();
   
-  tl.from(".hero-title", {
+  tl.from("#hero-title", {
     duration: 1.2,
     y: 100,
     opacity: 0,
     ease: "power4.out"
   })
-  .from(".hero-subtitle", {
+  .from("#hero-subtitle", {
     duration: 1,
     y: 50,
     opacity: 0,
     ease: "power3.out"
   }, "-=0.8") // Overlap with previous animation
-  .from(".illustration-container", {
+  .from("#hero-illustration", {
     duration: 2,
     xPercent: 100,
     opacity: 0,
@@ -72,7 +72,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         duration: 1,
         scrollTo: {
           y: target,
-          offsetY: 80 // Offset for fixed header
+          offsetY: 80, // Offset for fixed header
+          autoKill: false
         },
         ease: "power3.inOut"
       });
@@ -140,6 +141,22 @@ const handleScrollIndicator = () => {
   });
 };
 
+// Handle LAN cable sticky behavior
+const handleLanCableSticky = () => {
+  const aboutSection = document.getElementById('about');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        aboutSection.classList.add('sticky-cable');
+      } else {
+        aboutSection.classList.remove('sticky-cable');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(aboutSection);
+};
+
 // Initialize all animations and functionality on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   animateHeroSection();
@@ -147,10 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
   setupParallaxEffects();
   handleScrollIndicator();
   initNavTracking();
+  handleLanCableSticky(); // Add the new function call
 });
 
 // Store animation timelines for performance optimization
-const typingAnimation = gsap.to(".left-hand .fingers rect", {
+const typingAnimation = gsap.to(".typing-hands .fingers rect", {
     y: 2,
     duration: 0.1,
     ease: "power2.inOut",
@@ -233,7 +251,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
  * LinkedIn connection button interaction
  * Manages animations for head turning and phone screen state
  */
-const connectBtn = document.querySelector('.connect-btn');
+const connectBtn = document.querySelector('#connect-btn');
 const personHead = document.querySelector('.person circle');
 const phoneScreen = document.querySelector('.phone-screen');
 const linkedinContent = document.querySelector('.linkedin-content');
@@ -327,7 +345,7 @@ connectBtn.addEventListener('mouseleave', () => {
  * About section card animations
  * Adds entrance animations for about section elements
  */
-gsap.utils.toArray('#about .bg-card\\/70').forEach((card, i) => {
+gsap.utils.toArray('#about .cards').forEach((card, i) => {
   gsap.from(card, {
     scrollTrigger: {
       trigger: card,
@@ -346,7 +364,7 @@ gsap.utils.toArray('#about .bg-card\\/70').forEach((card, i) => {
  * Tech stack icon animations
  * Adds rotating entrance animation for technology icons
  */
-gsap.utils.toArray('#about .w-12').forEach((icon) => {
+gsap.utils.toArray('.tech-card').forEach((icon) => {
   gsap.from(icon, {
     scrollTrigger: {
       trigger: icon,
@@ -432,4 +450,37 @@ techCards.forEach(card => {
       repeat: 1
     });
   });
+});
+
+/**
+ * Blogs section card animation
+ * Adds entrance animation for coming soon card
+ */
+gsap.from('#blogs .bg-card\\/70', {
+  scrollTrigger: {
+    trigger: '#blogs .bg-card\\/70',
+    start: "top bottom-=100",
+    toggleActions: "play none none reverse"
+  },
+  y: 50,
+  opacity: 0,
+  duration: 1,
+  ease: "power3.out"
+});
+
+/**
+ * Blog preview cards animations
+ * Adds staggered entrance and hover animations for blog cards
+ */
+gsap.from('#blogs .grid > div', {
+  scrollTrigger: {
+    trigger: '#blogs .grid',
+    start: 'top bottom-=100',
+    toggleActions: 'play none none reverse'
+  },
+  y: 60,
+  opacity: 0,
+  duration: 1,
+  stagger: 0.2,
+  ease: 'power3.out'
 });

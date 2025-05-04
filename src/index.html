@@ -65,18 +65,21 @@
           <!-- Hero Content -->
           <div class="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
             <h1
-              class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight gradient-text"
+              id="hero-title"
+              class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight gradient-text"
             >
               Thirumoorthy Ponnusamy
             </h1>
             <p
-              class="hero-subtitle text-xl sm:text-2xl text-muted-foreground font-medium"
+              id="hero-subtitle"
+              class="text-xl sm:text-2xl text-muted-foreground font-medium"
             >
               Full Stack Developer & Tech Enthusiast
             </p>
             <!-- LinkedIn CTA Button with Interactive Hover Effects -->
             <div class="flex justify-center lg:justify-start">
               <a
+                id="connect-btn"
                 href="https://www.linkedin.com/in/moorthyptm/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -88,7 +91,7 @@
           </div>
 
           <!-- Interactive SVG Illustration -->
-          <div class="w-full lg:w-1/2">
+          <div id="hero-illustration" class="w-full lg:w-1/2">
             <div
               class="illustration-container max-w-2xl mx-auto lg:ml-auto lg:scale-125 lg:origin-left"
             >
@@ -735,6 +738,24 @@
       id="about"
       class="relative container mx-auto px-4 md:px-6 lg:px-8 py-24 md:py-32"
     >
+      <!-- LAN Cable Animation Elements -->
+      <div class="lan-cable-wrapper">
+        <div class="lan-cable lan-cable-left">
+          <div class="connector-pins"></div>
+          <div class="connector-clip"></div>
+          <div class="data-particle"></div>
+          <div class="data-particle"></div>
+          <div class="data-particle"></div>
+        </div>
+        <div class="lan-cable lan-cable-right">
+          <div class="connector-pins"></div>
+          <div class="connector-clip"></div>
+          <div class="data-particle"></div>
+          <div class="data-particle"></div>
+          <div class="data-particle"></div>
+        </div>
+      </div>
+
       <!-- Background Gradient Decoration -->
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none"
@@ -1197,6 +1218,55 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Blogs Section -->
+    <section
+      id="blogs"
+      class="relative container mx-auto px-4 md:px-6 lg:px-8 py-24 md:py-32"
+    >
+      <!-- Background Gradient Decoration -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none"
+      ></div>
+
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Title with Gradient Animation -->
+        <h2
+          class="text-4xl md:text-5xl font-extrabold h-20 m2-20 gradient-text text-center"
+        >
+          Blogs
+        </h2>
+
+        <!-- Coming Soon Message -->
+        <div class="text-center mb-16">
+          <div
+            class="inline-flex items-center justify-center p-2 bg-accent/10 rounded-xl mb-6"
+          >
+            <svg
+              class="w-5 h-5 text-accent mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+            <span class="text-accent font-semibold">Coming Soon</span>
+          </div>
+          <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Exciting content is on the way. Stay tuned for insightful articles about web development,
+            technology, and software architecture.
+          </p>
+        </div>
+
+        <!-- Blog Preview Grid -->
+      
       </div>
     </section>
 
