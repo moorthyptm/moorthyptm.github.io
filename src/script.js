@@ -17,13 +17,11 @@ const animateHeroSection = () => {
     opacity: 0,
     ease: "power3.out"
   }, "-=0.8")
- 
   .from(".illustration-container", {
-    duration: 1.2,
-    x: 100,
+    duration: 2,
+    xPercent: 100,  // Changed from -100 to 100 to animate from right to left
     opacity: 0,
-    ease: "power3.out",
-    rotation: 10
+    ease: "power3.inOut"
   }, "-=0.8");
 };
 
@@ -79,11 +77,29 @@ const setupParallaxEffects = () => {
   });
 };
 
+// Handle scroll indicator visibility
+const handleScrollIndicator = () => {
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (!scrollIndicator) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    if (scrollPosition > windowHeight * 0.3) {
+      scrollIndicator.style.opacity = '0';
+    } else {
+      scrollIndicator.style.opacity = '1';
+    }
+  });
+};
+
 // Initialize all animations
 document.addEventListener("DOMContentLoaded", () => {
   animateHeroSection();
   setupProjectAnimations();
   setupParallaxEffects();
+  handleScrollIndicator();
 });
 
 // Store timeline references for pausing/resuming

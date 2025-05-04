@@ -38,7 +38,7 @@
     <!-- Hero Section with enhanced animations -->
     <section
       id="home"
-      class="flex flex-col md:flex-row items-center justify-center gap-16 pt-40 pb-24 container mx-auto"
+      class="flex flex-col md:flex-row items-center justify-center min-h-screen relative pb-24 container mx-auto"
     >
       <div class="flex-1 flex flex-col items-start gap-8">
         <h1
@@ -638,6 +638,16 @@
               <rect x="230" y="250" width="5" height="20" fill="#4B5563" />
             </g>
           </svg>
+        </div>
+      </div>
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div class="scroll-arrows">
+          <span></span>
+          <span></span>
         </div>
       </div>
     </section>

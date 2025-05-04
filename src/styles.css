@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
-:root {
-  --color-background: oklch(1 0 0);
-  --color-foreground: oklch(0.2 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.2 0 0);
-  --color-primary: oklch(0.2 0 0);
-  --color-primary-foreground: oklch(0.98 0 0);
-  --color-secondary: oklch(0.96 0 0);
-  --color-secondary-foreground: oklch(0.2 0 0);
-  --color-muted: oklch(0.96 0 0);
-  --color-muted-foreground: oklch(0.46 0 0);
-  --color-accent: oklch(0.96 0 0);
-  --color-accent-foreground: oklch(0.2 0 0);
-  --color-destructive: oklch(0.6 0.2 0);
-  --color-destructive-foreground: oklch(0.98 0 0);
-  --color-border: oklch(0.9 0 0);
-  --box-shadow: rgba(0, 0, 0, 0.1);
-  --box-background: oklch(1 0 0);
-  --box-side: oklch(0.95 0 0);
-  --box-top: oklch(0.98 0 0);
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --glass-backdrop: blur(8px);
+@theme {
+  --color-background: oklch(0.98 0.01 240);
+  --color-foreground: oklch(0.2 0.02 260);
+  --color-card: oklch(0.99 0.01 250);
+  --color-card-foreground: oklch(0.2 0.02 260);
+  --color-primary: oklch(0.55 0.25 250);
+  --color-primary-foreground: oklch(0.98 0.01 240);
+  --color-secondary: oklch(0.6 0.25 270);
+  --color-secondary-foreground: oklch(0.98 0.01 240);
+  --color-muted: oklch(0.9 0.05 260);
+  --color-muted-foreground: oklch(0.3 0.15 270);
+  --color-accent: oklch(0.7 0.25 220);
+  --color-accent-foreground: oklch(0.98 0.01 240);
+  --color-destructive: oklch(0.65 0.3 30);
+  --color-destructive-foreground: oklch(0.98 0.01 240);
+  --color-border: oklch(0.85 0.05 250);
+  --box-shadow: rgba(98, 88, 255, 0.2);
+  --box-background: oklch(0.99 0.01 250);
+  --box-side: oklch(0.95 0.03 260);
+  --box-top: oklch(0.98 0.02 255);
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(89, 86, 255, 0.3);
+  --glass-backdrop: blur(12px);
 }
 
 /* Connect button styles */
@@ -72,6 +72,11 @@ nav {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(
+    145deg,
+    var(--glass-bg),
+    rgba(255, 255, 255, 0.03)
+  ) !important;
 }
 
 /* Improved hover effects */
@@ -105,15 +110,15 @@ nav {
 .gradient-text {
   background: linear-gradient(
     270deg,
-    var(--color-primary),
-    var(--color-accent),
-    var(--color-primary)
+    oklch(0.55 0.25 250), /* More saturated primary */
+    oklch(0.7 0.25 220),  /* More saturated accent */
+    oklch(0.6 0.25 270)   /* More saturated secondary */
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradient 8s linear infinite;
+  animation: gradient 6s ease infinite; /* Smoother timing */
 }
 
 @keyframes gradient {
@@ -125,5 +130,87 @@ nav {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Scroll indicator styles */
+.scroll-indicator {
+  animation: fadeIn 1s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.mouse {
+  width: 26px;
+  height: 42px;
+  border: 2px solid var(--color-muted-foreground);
+  border-radius: 20px;
+  position: relative;
+  margin: 0 auto 12px;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--color-muted-foreground);
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  animation: mouseWheel 1.6s ease-in-out infinite;
+}
+
+.scroll-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.scroll-arrows span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--color-muted-foreground);
+  border-bottom: 2px solid var(--color-muted-foreground);
+  transform: rotate(45deg);
+  animation: arrowBounce 1.6s infinite;
+}
+
+.scroll-arrows span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+@keyframes mouseWheel {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+}
+
+@keyframes arrowBounce {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-5px, -5px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
