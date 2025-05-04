@@ -36,6 +36,9 @@
                 <div class="space-y-6 mb-12">
                     <h1 class="text-5xl font-bold text-[var(--color-foreground)]">Thirumoorthy Ponnusamy</h1>
                     <p class="text-2xl text-[var(--color-muted-foreground)]">Full Stack Developer</p>
+                    <button class="connect-btn px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transform transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-500">
+                        Connect with me
+                    </button>
                 </div>
                 
                 <!-- Illustration container -->
@@ -104,7 +107,27 @@
                             <!-- Keyboard deck -->
                             <rect x="62" y="201" width="46" height="4" fill="#e5e7eb" />
                         </g>
-                        
+
+                        <!-- Phone with LinkedIn -->
+                        <g class="phone" transform="translate(112, 183)">
+                            <!-- Phone body -->
+                            <rect x="0" y="0" width="15" height="25" rx="2" fill="#374151" />
+                            <!-- Screen (black by default) -->
+                            <rect x="1" y="1" width="13" height="23" rx="1.5" fill="#000000" class="phone-screen" />
+                            <!-- LinkedIn interface (hidden by default) -->
+                            <g class="linkedin-content" opacity="0">
+                                <!-- LinkedIn Logo -->
+                                <rect x="3" y="3" width="9" height="9" rx="1.5" fill="white"/>
+                                <text x="4" y="9.5" font-family="Arial" font-size="7" font-weight="bold" fill="#0A66C2">in</text>
+                                <!-- Content bars -->
+                                <rect x="3" y="14" width="9" height="1.5" rx="0.75" fill="white" opacity="0.8"/>
+                                <rect x="3" y="17" width="7" height="1.5" rx="0.75" fill="white" opacity="0.8"/>
+                                <rect x="3" y="20" width="8" height="1.5" rx="0.75" fill="white" opacity="0.8"/>
+                            </g>
+                            <!-- Phone camera -->
+                            <circle cx="7.5" cy="2" r="0.6" fill="#111827"/>
+                        </g>
+
                         <!-- Speakers with corrected dot sizes -->
                         <g class="speaker speaker-left">
                             <rect x="130" y="175" width="15" height="30" rx="2" fill="#6B7280" />
