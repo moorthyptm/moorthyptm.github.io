@@ -33,6 +33,7 @@ jobs:
         run: |
           cp src/index.html dist/
           cp src/script.js dist/
+          sed -i 's|href="styles.css"|href="./styles.css"|' dist/index.html
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

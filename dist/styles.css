@@ -205,11 +205,17 @@
   .mb-12 {
     margin-bottom: calc(var(--spacing) * 12);
   }
+  .contents {
+    display: contents;
+  }
   .flex {
     display: flex;
   }
   .hidden {
     display: none;
+  }
+  .inline-block {
+    display: inline-block;
   }
   .h-6 {
     height: calc(var(--spacing) * 6);
