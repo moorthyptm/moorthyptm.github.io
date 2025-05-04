@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@source "./script.js";
 @theme {
   /* Light theme variables */
   --color-background: oklch(1 0 0);
@@ -69,86 +69,9 @@
   display: block;
 }
 
-/* 3D Box Styles */
-.box-container {
-  perspective: 2000px;
-  perspective-origin: 50% -100%;
-}
-
-.box {
-  position: relative;
-  transform-style: preserve-3d;
-  transform: rotateX(20deg) rotateY(-20deg);
-  transition: transform 0.5s ease;
-}
-
-.box-face {
-  position: absolute;
-  backface-visibility: hidden;
-}
-
-.box-front {
-  background-color: var(--box-background);
-  box-shadow: inset 0 0 60px var(--box-shadow);
-  transform: translateZ(0);
-  overflow: hidden;
-}
-
-.box-right {
-  background-color: var(--box-side);
-  transform-origin: right;
-  transform: rotateY(-90deg) translateX(100%);
-}
-
-.box-top {
-  background-color: var(--box-top);
-  transform-origin: top;
-  transform: rotateX(-90deg) translateY(-100%);
-}
-
-/* Hover effect */
-.box:hover {
-  transform: rotateX(25deg) rotateY(-25deg) translateZ(20px);
-}
-
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
-    body {
-        background-color: #111827;
-    }
-}
-
-/* Animation keyframes */
-@keyframes typing {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-
-@keyframes screenGlow {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.2); }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* Illustration animations */
-.typing-hands {
-  animation: typing 0.8s ease-in-out infinite;
-}
-
-.screen-glow {
-  animation: screenGlow 2s ease-in-out infinite;
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-.illustration-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  body {
+    background-color: #111827;
+  }
 }

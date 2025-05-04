@@ -44,33 +44,76 @@ gsap.from(".gsap-text", {
     ease: "power2.out"
 });
 
-// Add typing tap animation for left hand only
-gsap.to(".left-hand", {
-    y: 5,
-    duration: 0.15,
-    ease: "power1.inOut",
+// Add typing animation for left hand only
+gsap.to(".left-hand .fingers rect", {
+    y: 2,
+    duration: 0.1,
+    ease: "power2.inOut",
     yoyo: true,
     repeat: -1,
-    repeatDelay: 0.2
+    repeatDelay: 0.2,
+    stagger: {
+        amount: 0.3,
+        from: "random"
+    }
 });
 
-// Add mouse-move animation for right hand and mouse
-gsap.to([".right-hand", ".mouse"], {
-    x: 20,
-    duration: 1,
-    ease: "power1.inOut",
+// Add mouse movement and right hand animation
+gsap.to([".right-hand", ".mouse-element"], {
+    x: 5,
+    duration: 2,
+    ease: "sine.inOut",
+    yoyo: true,
+    repeat: -1
+});
+
+// Add subtle mouse click animation
+gsap.to(".mouse-grip path", {
+    y: 0.5,
+    duration: 0.2,
+    ease: "power2.inOut",
     yoyo: true,
     repeat: -1,
-    stagger: 0.1
+    repeatDelay: 1,
+    stagger: {
+        amount: 0.1,
+        from: "random"
+    }
 });
 
 // Add cursor blink animation
 gsap.to(".cursor-blink", {
     opacity: 0,
-    duration: 0.5,
-    ease: "power2.out",
+    duration: 0.8,
+    ease: "steps(1)",
     repeat: -1,
     yoyo: true
+});
+
+// Add browser content loading animation
+gsap.to(".browser-content rect", {
+    width: "random(10, 17)",
+    duration: "random(0.5, 1.5)",
+    ease: "power1.inOut",
+    yoyo: true,
+    repeat: -1,
+    stagger: {
+        amount: 1,
+        from: "start"
+    }
+});
+
+// Add code inspector typing effect
+gsap.to(".code-inspector rect", {
+    width: "random(14, 17)",
+    duration: 0.3,
+    ease: "none",
+    repeat: -1,
+    repeatDelay: 0.1,
+    stagger: {
+        amount: 0.5,
+        from: "random"
+    }
 });
 
 // Add CPU fan spin animation
@@ -81,4 +124,4 @@ gsap.to(".fan-blades", {
     ease: "linear",
     repeat: -1,
     duration: 1
-}); 
+});
