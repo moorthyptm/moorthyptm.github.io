@@ -1,34 +1,29 @@
-// Wait for DOM and GSAP to be ready
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure GSAP is loaded before proceeding
-  if (typeof gsap === 'undefined') {
-    console.error('GSAP is not loaded. Please ensure GSAP scripts are loaded before this script.');
-    return;
-  }
+  if (typeof gsap === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
   const animateHeroSection = () => {
     const tl = gsap.timeline();
-    
+
     tl.from("#hero-title", {
       duration: 1.2,
       y: 100,
       opacity: 0,
       ease: "power4.out"
     })
-    .from("#hero-subtitle", {
-      duration: 1,
-      y: 50,
-      opacity: 0,
-      ease: "power3.out"
-    }, "-=0.8")
-    .from("#hero-illustration", {
-      duration: 2,
-      xPercent: 100,
-      opacity: 0,
-      ease: "power3.inOut"
-    }, "-=0.8");
+      .from("#hero-subtitle", {
+        duration: 1,
+        y: 50,
+        opacity: 0,
+        ease: "power3.out"
+      }, "-=0.8")
+      .from("#hero-illustration", {
+        duration: 2,
+        xPercent: 100,
+        opacity: 0,
+        ease: "power3.inOut"
+      }, "-=0.8");
   };
 
   const initNavTracking = () => {
@@ -37,16 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateActiveNav = () => {
       const scrollY = window.scrollY;
-      
+
       sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
         const sectionTop = section.offsetTop - 100;
         const sectionId = section.getAttribute('id');
-        
-        if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
           navLinks.forEach(link => {
             link.classList.remove('text-accent');
-            if(link.getAttribute('href') === `#${sectionId}`) {
+            if (link.getAttribute('href') === `#${sectionId}`) {
               link.classList.add('text-accent');
             }
           });
@@ -102,10 +97,50 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: el,
           start: "top bottom",
           end: "bottom top",
-          scrub: true
+          scrub: 1
         }
       });
     });
+
+    const heroSection = document.getElementById('home');
+    if (heroSection) {
+      const shapes = document.querySelectorAll('.hero-shape');
+      const illustration = document.getElementById('hero-illustration');
+      const title = document.getElementById('hero-title');
+
+      heroSection.addEventListener('mousemove', (e) => {
+        const xPos = (e.clientX / window.innerWidth - 0.5);
+        const yPos = (e.clientY / window.innerHeight - 0.5);
+
+        shapes.forEach((shape, index) => {
+          const speed = (index + 1) * 20;
+          gsap.to(shape, {
+            x: xPos * speed,
+            y: yPos * speed,
+            duration: 1,
+            ease: 'power2.out'
+          });
+        });
+
+        if (illustration) {
+          gsap.to(illustration, {
+            x: -xPos * 30,
+            y: -yPos * 30,
+            duration: 1,
+            ease: 'power2.out'
+          });
+        }
+
+        if (title) {
+          gsap.to(title, {
+            x: xPos * 10,
+            y: yPos * 10,
+            duration: 1,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }
   };
 
   const handleScrollIndicator = () => {
@@ -115,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
-      
+
       if (scrollPosition > windowHeight * 0.3) {
         scrollIndicator.style.opacity = '0';
       } else {
@@ -136,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenu.setAttribute('aria-hidden', isOpen);
       mobileMenuButton.setAttribute('aria-expanded', !isOpen);
       document.body.classList.toggle('overflow-hidden');
-      
+
       if (!isOpen) {
         mobileMenuClose.focus();
       } else {
@@ -183,15 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const initTouchOptimizations = () => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
+
     if (isTouchDevice) {
       const interactiveElements = document.querySelectorAll('.bg-card\\/50, #connect-btn, nav a');
-      
+
       interactiveElements.forEach(element => {
         element.addEventListener('touchstart', () => {
           element.style.transform = 'scale(0.95)';
         });
-        
+
         element.addEventListener('touchend', () => {
           setTimeout(() => {
             element.style.transform = '';
@@ -201,7 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Initialize all animations and functionality
   animateHeroSection();
   setupProjectAnimations();
   setupParallaxEffects();
@@ -211,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileOptimizations();
   initTouchOptimizations();
 
-  // Initialize GSAP animations
   const typingAnimation = gsap.to(".typing-hands .fingers rect", {
     y: 2,
     duration: 0.1,
@@ -220,8 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
     repeat: -1,
     repeatDelay: 0.2,
     stagger: {
-        amount: 0.3,
-        from: "random"
+      amount: 0.3,
+      from: "random"
     }
   });
 
@@ -240,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
     yoyo: true,
     repeat: -1,
     stagger: {
-        amount: 1,
-        from: "start"
+      amount: 1,
+      from: "start"
     }
   });
 
@@ -252,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
     repeat: -1,
     repeatDelay: 0.1,
     stagger: {
-        amount: 0.5,
-        from: "random"
+      amount: 0.5,
+      from: "random"
     }
   });
 
@@ -282,7 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const linkedinContent = document.querySelector('.linkedin-content');
   const originalHeadPosition = { x: 210, cy: 155 };
 
-  // LinkedIn button interactions
   if (connectBtn) {
     connectBtn.addEventListener('mouseenter', () => {
       if (!prefersReducedMotion) {
@@ -371,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // About section card animations
   gsap.utils.toArray('#about .bg-card\\/70').forEach((card, i) => {
     gsap.from(card, {
       scrollTrigger: {
@@ -387,7 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Tech stack icon animations
   gsap.utils.toArray('.bg-card\\/50').forEach((icon) => {
     gsap.from(icon, {
       scrollTrigger: {
@@ -403,7 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Tech stack card interactions
   const techCards = document.querySelectorAll('.bg-card\\/50');
   techCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
@@ -413,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 0.3,
         ease: "power2.out"
       });
-      
+
       const icon = card.querySelector('.w-10, .w-12');
       if (icon) {
         gsap.to(icon, {
@@ -432,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 0.3,
         ease: "power2.out"
       });
-      
+
       const icon = card.querySelector('.w-10, .w-12');
       if (icon) {
         gsap.to(icon, {
@@ -455,3 +484,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
