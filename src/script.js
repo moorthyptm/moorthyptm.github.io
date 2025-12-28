@@ -108,10 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const illustration = document.getElementById('hero-illustration');
       const title = document.getElementById('hero-title');
 
-      heroSection.addEventListener('mousemove', (e) => {
-        const xPos = (e.clientX / window.innerWidth - 0.5);
-        const yPos = (e.clientY / window.innerHeight - 0.5);
-
+      const updateParallax = (xPos, yPos) => {
         shapes.forEach((shape, index) => {
           const speed = (index + 1) * 20;
           gsap.to(shape, {
@@ -139,7 +136,52 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: 'power2.out'
           });
         }
+      };
+
+      // Mouse Parallax
+      heroSection.addEventListener('mousemove', (e) => {
+        const xPos = (e.clientX / window.innerWidth - 0.5);
+        const yPos = (e.clientY / window.innerHeight - 0.5);
+        updateParallax(xPos, yPos);
       });
+
+      // Mobile Device Orientation Parallax
+      const handleOrientation = (e) => {
+        // Clamp values to prevent extreme movement
+        // Gamma: Left/Right tilt (-90 to 90)
+        // Beta: Front/Back tilt (-180 to 180)
+        const gamma = Math.min(Math.max(e.gamma, -45), 45);
+        const beta = Math.min(Math.max(e.beta, -45), 45);
+
+        // Normalize to -0.5 to 0.5 range similar to mouse calculation
+        const xPos = gamma / 90;
+        const yPos = beta / 90;
+
+        updateParallax(xPos, yPos);
+      };
+
+      if (window.DeviceOrientationEvent) {
+        // Check if iOS 13+ permission API exists
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          // iOS 13+ requires user interaction to request permission
+          const requestPermission = () => {
+            DeviceOrientationEvent.requestPermission()
+              .then(response => {
+                if (response === 'granted') {
+                  window.addEventListener('deviceorientation', handleOrientation);
+                }
+              })
+              .catch(console.error)
+              .finally(() => {
+                document.removeEventListener('click', requestPermission);
+              });
+          };
+          document.addEventListener('click', requestPermission);
+        } else {
+          // Non-iOS or older devices might support it without permission
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      }
     }
   };
 
