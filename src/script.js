@@ -258,13 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const mouseMovement = gsap.to([".right-hand", ".mouse-element"], {
-    x: 5,
-    duration: 2,
-    ease: "sine.inOut",
-    yoyo: true,
-    repeat: -1
-  });
+
 
   const browserContentAnimation = gsap.to(".browser-content rect", {
     width: "random(10, 17)",
@@ -354,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         typingAnimation.pause();
-        mouseMovement.pause();
+
         browserContentAnimation.pause();
         codeInspectorAnimation.pause();
       }
@@ -396,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         typingAnimation.resume();
-        mouseMovement.resume();
+
         browserContentAnimation.resume();
         codeInspectorAnimation.resume();
       }
