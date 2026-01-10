@@ -208,16 +208,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileNavLinks = mobileMenu?.querySelectorAll('a[href^="#"]') || [];
 
     const toggleMobileMenu = () => {
-      const isOpen = !mobileMenu.classList.contains('-translate-x-full');
-      mobileMenu.classList.toggle('-translate-x-full');
-      mobileMenu.setAttribute('aria-hidden', isOpen);
-      mobileMenuButton.setAttribute('aria-expanded', !isOpen);
-      document.body.classList.toggle('overflow-hidden');
+      const isClosed = mobileMenu.classList.contains('-translate-x-full');
 
-      if (!isOpen) {
+      if (isClosed) {
+        // Open menu
+        mobileMenu.classList.remove('invisible');
+        // Force reflow
+        void mobileMenu.offsetWidth;
+        mobileMenu.classList.remove('-translate-x-full');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        mobileMenuButton.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('overflow-hidden');
         mobileMenuClose.focus();
       } else {
-        mobileMenuButton.focus();
+        // Close menu
+        closeMobileMenu();
       }
     };
 
@@ -226,6 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenu.setAttribute('aria-hidden', 'true');
       mobileMenuButton.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('overflow-hidden');
+
+      // Wait for transition to finish before hiding visibility
+      const handleTransitionEnd = () => {
+        if (mobileMenu.classList.contains('-translate-x-full')) {
+          mobileMenu.classList.add('invisible');
+        }
+        mobileMenu.removeEventListener('transitionend', handleTransitionEnd);
+      };
+
+      mobileMenu.addEventListener('transitionend', handleTransitionEnd);
       mobileMenuButton.focus();
     };
 

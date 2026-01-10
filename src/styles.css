@@ -13,8 +13,8 @@
   --color-secondary-foreground: oklch(0.98 0.01 240);
   --color-muted: oklch(0.2 0.05 260);
   --color-muted-foreground: oklch(0.6 0.1 220);
-  --color-accent: oklch(0.85 0.2 140);
-  /* Neon Green */
+  --color-accent: oklch(0.7 0.2 240);
+  /* Electric Blue */
   --color-accent-foreground: oklch(0.1 0.02 260);
   --color-destructive: oklch(0.65 0.3 30);
   --color-destructive-foreground: oklch(0.98 0.01 240);
@@ -314,4 +314,61 @@ body::before {
   50% {
     transform: translateY(-20px);
   }
+}
+
+/* Electric Button Animation */
+@keyframes borderRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.electric-btn {
+  position: relative;
+  overflow: hidden;
+  background-color: oklch(0.7 0.2 240 / 0.2);
+  /* Low opacity accent for static border */
+  color: var(--color-accent);
+  border-radius: 0.75rem;
+  /* rounded-xl */
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.electric-btn::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 50%;
+  left: 50%;
+  background: conic-gradient(transparent, transparent, transparent, var(--color-accent));
+  transform-origin: 50% 50%;
+  animation: borderRotate 4s linear infinite;
+  z-index: -2;
+  margin-top: -100%;
+  margin-left: -100%;
+}
+
+.electric-btn::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--color-background);
+  border-radius: calc(0.75rem - 2px);
+  z-index: -1;
+}
+
+.electric-btn:hover {
+  box-shadow: 0 0 20px var(--color-accent), inset 0 0 10px var(--color-accent);
+  text-shadow: 0 0 8px var(--color-accent);
+  color: oklch(0.9 0.1 240);
+  /* Lighter blue for contrast, not white */
 }
