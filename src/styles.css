@@ -1,24 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: oklch(0.1 0.02 260);
-  --color-foreground: oklch(0.9 0.05 200);
-  --color-card: oklch(0.15 0.05 260);
-  --color-card-foreground: oklch(0.9 0.05 200);
-  --color-primary: oklch(0.7 0.2 200);
-  /* Cyan */
-  --color-primary-foreground: oklch(0.1 0.02 260);
-  --color-secondary: oklch(0.65 0.25 300);
-  /* Neon Purple */
+  --color-background: oklch(0.13 0.01 260);
+  /* Deep Slate */
+  --color-foreground: oklch(0.95 0.01 260);
+  /* Off-White Slate */
+  --color-card: oklch(0.18 0.02 260);
+  /* Slightly lighter Slate */
+  --color-card-foreground: oklch(0.95 0.01 260);
+  --color-primary: oklch(0.65 0.15 270);
+  /* Professional Indigo/Blue */
+  --color-primary-foreground: oklch(0.15 0.02 260);
+  --color-secondary: oklch(0.70 0.12 210);
+  /* Soft Emerald/Teal Accent */
   --color-secondary-foreground: oklch(0.98 0.01 240);
-  --color-muted: oklch(0.2 0.05 260);
-  --color-muted-foreground: oklch(0.6 0.1 220);
-  --color-accent: oklch(0.7 0.2 240);
-  /* Electric Blue */
-  --color-accent-foreground: oklch(0.1 0.02 260);
-  --color-destructive: oklch(0.65 0.3 30);
+  --color-muted: oklch(0.25 0.02 260);
+  /* Muted Slate */
+  --color-muted-foreground: oklch(0.65 0.02 260);
+  /* Gray Text */
+  --color-accent: oklch(0.65 0.15 270);
+  /* Indigo Accent */
+  --color-accent-foreground: oklch(0.15 0.02 260);
+  --color-destructive: oklch(0.60 0.2 25);
   --color-destructive-foreground: oklch(0.98 0.01 240);
-  --color-border: oklch(0.3 0.1 240);
+  --color-border: oklch(0.25 0.03 260);
+  /* Slate Border */
 }
 
 html {
@@ -35,8 +41,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-background);
   background-image:
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: center top;
 }
@@ -50,8 +56,8 @@ body::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(200, 50, 255, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 15% 25%, oklch(0.65 0.15 270 / 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, oklch(0.70 0.12 210 / 0.04) 0%, transparent 40%);
   pointer-events: none;
   z-index: -1;
 }

@@ -72,115 +72,139 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const setupProjectAnimations = () => {
-    gsap.utils.toArray(".project-card").forEach((card, i) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: "top bottom-=50",
-          toggleActions: "play none none reverse"
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: i * 0.2,
-        ease: "power3.out"
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    gsap.utils.toArray(".project-card").forEach((card) => {
+      gsap.set(card, { opacity: 0, y: 40, willChange: 'transform, opacity' });
+
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top 90%",
+        once: true,
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            clearProps: "willChange"
+          });
+        }
       });
     });
   };
 
   const setupParallaxEffects = () => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    // Lightweight scrub parallax for data-speed elements
     gsap.utils.toArray("[data-speed]").forEach(el => {
+      const speed = parseFloat(el.dataset.speed) || 0;
       gsap.to(el, {
-        y: (i, target) => (ScrollTrigger.maxScroll(window) - target.offsetTop) * target.dataset.speed,
+        y: () => speed * 100,
         ease: "none",
         scrollTrigger: {
           trigger: el,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1
+          scrub: 0.5 // Silk-smooth 0.5s catch-up
         }
       });
     });
 
     const heroSection = document.getElementById('home');
-    if (heroSection) {
-      const shapes = document.querySelectorAll('.hero-shape');
-      const illustration = document.getElementById('hero-illustration');
-      const title = document.getElementById('hero-title');
+    if (!heroSection) return;
 
-      const updateParallax = (xPos, yPos) => {
-        shapes.forEach((shape, index) => {
-          const speed = (index + 1) * 20;
-          gsap.to(shape, {
-            x: xPos * speed,
-            y: yPos * speed,
-            duration: 1,
-            ease: 'power2.out'
+    const shapes = document.querySelectorAll('.hero-shape');
+    const illustration = document.getElementById('hero-illustration');
+    const title = document.getElementById('hero-title');
+
+    // RAF-throttled mouse parallax for 60fps
+    let mouseX = 0, mouseY = 0, rafId = null;
+
+    const onMouseMove = (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5);
+      mouseY = (e.clientY / window.innerHeight - 0.5);
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 15;
+            gsap.to(shape, {
+              x: mouseX * speed,
+              y: mouseY * speed,
+              duration: 0.8,
+              ease: 'power2.out',
+              overwrite: 'auto'
+            });
           });
+
+          if (illustration) {
+            gsap.to(illustration, {
+              x: -mouseX * 20,
+              y: -mouseY * 20,
+              duration: 0.8,
+              ease: 'power2.out',
+              overwrite: 'auto'
+            });
+          }
+
+          if (title) {
+            gsap.to(title, {
+              x: mouseX * 8,
+              y: mouseY * 8,
+              duration: 0.8,
+              ease: 'power2.out',
+              overwrite: 'auto'
+            });
+          }
+
+          rafId = null;
         });
+      }
+    };
 
-        if (illustration) {
-          gsap.to(illustration, {
-            x: -xPos * 30,
-            y: -yPos * 30,
-            duration: 1,
-            ease: 'power2.out'
+    heroSection.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // Device orientation (mobile tilt parallax)
+    const handleOrientation = (e) => {
+      const gamma = Math.min(Math.max(e.gamma, -45), 45);
+      const beta = Math.min(Math.max(e.beta, -45), 45);
+      mouseX = gamma / 90;
+      mouseY = beta / 90;
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 15;
+            gsap.to(shape, { x: mouseX * speed, y: mouseY * speed, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
           });
-        }
+          if (illustration) gsap.to(illustration, { x: -mouseX * 20, y: -mouseY * 20, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
+          if (title) gsap.to(title, { x: mouseX * 8, y: mouseY * 8, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
+          rafId = null;
+        });
+      }
+    };
 
-        if (title) {
-          gsap.to(title, {
-            x: xPos * 10,
-            y: yPos * 10,
-            duration: 1,
-            ease: 'power2.out'
-          });
-        }
-      };
-
-      // Mouse Parallax
-      heroSection.addEventListener('mousemove', (e) => {
-        const xPos = (e.clientX / window.innerWidth - 0.5);
-        const yPos = (e.clientY / window.innerHeight - 0.5);
-        updateParallax(xPos, yPos);
-      });
-
-      // Mobile Device Orientation Parallax
-      const handleOrientation = (e) => {
-        // Clamp values to prevent extreme movement
-        // Gamma: Left/Right tilt (-90 to 90)
-        // Beta: Front/Back tilt (-180 to 180)
-        const gamma = Math.min(Math.max(e.gamma, -45), 45);
-        const beta = Math.min(Math.max(e.beta, -45), 45);
-
-        // Normalize to -0.5 to 0.5 range similar to mouse calculation
-        const xPos = gamma / 90;
-        const yPos = beta / 90;
-
-        updateParallax(xPos, yPos);
-      };
-
-      if (window.DeviceOrientationEvent) {
-        // Check if iOS 13+ permission API exists
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          // iOS 13+ requires user interaction to request permission
-          const requestPermission = () => {
-            DeviceOrientationEvent.requestPermission()
-              .then(response => {
-                if (response === 'granted') {
-                  window.addEventListener('deviceorientation', handleOrientation);
-                }
-              })
-              .catch(console.error)
-              .finally(() => {
-                document.removeEventListener('click', requestPermission);
-              });
-          };
-          document.addEventListener('click', requestPermission);
-        } else {
-          // Non-iOS or older devices might support it without permission
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
+    if (window.DeviceOrientationEvent) {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const requestPermission = () => {
+          DeviceOrientationEvent.requestPermission()
+            .then(response => {
+              if (response === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+              }
+            })
+            .catch(console.error)
+            .finally(() => {
+              document.removeEventListener('click', requestPermission);
+            });
+        };
+        document.addEventListener('click', requestPermission);
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation, { passive: true });
       }
     }
   };
