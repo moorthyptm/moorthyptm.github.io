@@ -96,15 +96,6 @@
   color: var(--chat-ink);
 }
 
-.agent-chat-hint {
-  padding: 0.55rem 1rem;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  color: var(--chat-muted);
-  background: rgba(45, 95, 78, 0.06);
-  border-bottom: 1px solid rgba(20, 22, 25, 0.06);
-}
-
 .agent-chat-messages {
   flex: 1;
   padding: 0.85rem 1rem;

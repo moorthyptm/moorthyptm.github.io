@@ -1,0 +1,8 @@
+# RFC 9116 vulnerability disclosure for moorthyptm.github.io
+# Reach me on LinkedIn for any security findings; this site is owner-managed
+# and contains no user data, but reports are appreciated all the same.
+
+Contact: https://www.linkedin.com/in/moorthyptm/
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://moorthyptm.github.io/.well-known/security.txt

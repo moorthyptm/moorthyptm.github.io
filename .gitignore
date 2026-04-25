@@ -23,3 +23,15 @@ skills-lock.json
 
 # Local-only backups
 *.bak
+
+# Session research / audit working files — heap snapshots, perf traces,
+# screenshots, lighthouse reports, linkedin extracts. Useful locally,
+# never deployed and too large for git.
+_artifacts/
+*.heapsnapshot
+trace.json
+trace.json.gz
+
+# OS noise
+.DS_Store
+Thumbs.db

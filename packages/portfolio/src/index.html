@@ -13,13 +13,36 @@
   <link rel="canonical" href="https://moorthyptm.github.io/" />
   <title>Thirumoorthy Ponnusamy — Technical Lead · Angular, Node.js & AI</title>
 
-  <!-- Content Security Policy. frame-ancestors + X-Frame-Options are ignored
-       when delivered via <meta> (spec), so they're enforced by GitHub Pages'
-       default response headers instead. Keep CSP here for defense-in-depth. -->
+  <!-- Content Security Policy.
+       Notes:
+       - GitHub Pages can't set HTTP response headers; we ship CSP via <meta>.
+       - frame-ancestors / report-uri / sandbox are spec-ignored in meta CSP — keep
+         clickjacking defence via X-Frame-Options served by GH Pages' defaults.
+       - 'unsafe-inline' on script-src remains because GA's gtag init is inline +
+         Vite emits inline scripts during dev; tighten to nonce/hash on a future
+         build pipeline. style-src 'unsafe-inline' is required by Tailwind's runtime
+         injected styles.
+       - localhost:8787 is the dev agent endpoint; harmless on prod (real users
+         can't reach localhost from their browser) but kept for dev convenience. -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://agent.moorthyptm.com http://localhost:8787 https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; base-uri 'self'; form-action 'self'; object-src 'none';" />
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://agent.moorthyptm.com http://localhost:8787 https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data:; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- No-flash for magic-mode toggle. Default = OFF (magic mode is opt-in).
+       The class is added unless localStorage explicitly stores 'on', so the page
+       paints clean before magic-toggle.ts (deferred bundle) hydrates. -->
+  <script>
+    (function(){try{if(localStorage.getItem('magic-mode')!=='on')document.documentElement.classList.add('magic-off');}catch(e){document.documentElement.classList.add('magic-off');}})();
+  </script>
+
+  <!-- Discourage crawling / caching. The site is owner-managed; we don't want it
+       indexed by general search engines or cached by archive bots. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nocache, nosnippet, noimageindex" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
   <!-- A2A / machine-readable discovery (humans never see these) -->
   <link rel="alternate" type="application/a2a+json" href="/.well-known/agent-card.json" title="A2A Agent Card" />
@@ -40,7 +63,7 @@
   <meta property="profile:username" content="moorthyptm" />
 
   <!-- Twitter / X card -->
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Thirumoorthy Ponnusamy — Technical Lead · Angular, Node.js & AI" />
   <meta name="twitter:description"
     content="Technical Lead & Architect. Angular, Node.js, AWS, AI automation, design systems." />
@@ -62,7 +85,7 @@
         "https://www.linkedin.com/in/moorthyptm/",
         "https://github.com/moorthyptm"
       ],
-      "worksFor": { "@type": "Organization", "name": "TrusTrace" },
+      "worksFor": { "@type": "Organization", "name": "TrusTrace", "url": "https://trustrace.com" },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Coimbatore",
@@ -78,7 +101,7 @@
   </script>
 
   <!-- JSON-LD Agent service (machine-readable only; humans never see this).
-       Recruiter / client AI agents: you can reach Moorthy's portfolio agent
+       Recruiter / client AI agents: you can reach Thirumoorthy's portfolio agent
        directly at the A2A endpoint below — no human in the loop required. -->
   <script type="application/ld+json">
     {
@@ -119,14 +142,16 @@
     }
   </script>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TCP3BMWLEN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-TCP3BMWLEN');
-  </script>
+  <!-- Google Analytics is loaded via boot.ts tier 2 (analytics.ts) so the 470+ kB
+       GTM payload doesn't block the critical render path. See analytics.ts. -->
+
+  <!-- Preload the JSON data files so they fetch in parallel with the JS bundle
+       instead of waiting for experience.ts / community.ts to call fetch(). The
+       `?v=__BUILD_HASH__` placeholder is replaced at build time by the Vite
+       `inject-build-hash` plugin (vite.config.ts) — same hash as the JS code's
+       fetch URLs so the preloaded resource is reused (no double-fetch). -->
+  <link rel="preload" href="/data/experience.json?v=__BUILD_HASH__" as="fetch" type="application/json" crossorigin />
+  <link rel="preload" href="/data/community.json?v=__BUILD_HASH__" as="fetch" type="application/json" crossorigin />
 
   <!-- Fonts: Instrument Serif (editorial display) · Geist (body) · Geist Mono (technical) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -164,6 +189,7 @@
         <li><a href="#about" class="nav-link" data-nav-link>About</a></li>
         <li><a href="#work" class="nav-link" data-nav-link>Work</a></li>
         <li><a href="#experience" class="nav-link" data-nav-link>Experience</a></li>
+        <li><a href="#community" class="nav-link" data-nav-link>Community</a></li>
         <li>
           <a href="#contact"
             class="mono text-xs uppercase tracking-widest px-4 py-2 border border-ink hover:bg-ink hover:text-paper transition-all duration-200">
@@ -195,6 +221,7 @@
       <a href="#about">About</a>
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
+      <a href="#community">Community</a>
       <a href="#contact" class="text-accent">Contact →</a>
     </nav>
   </div>
@@ -208,30 +235,35 @@
           <div class="md:col-span-7 space-y-6 md:space-y-8">
             <p class="eyebrow reveal">Technical Lead · Architect · Coimbatore, IN</p>
 
-            <h1 class="hero-name reveal delay-1">
+            <h1
+              class="reveal delay-1 font-display font-normal text-ink text-[clamp(2.75rem,7.4vw,5.5rem)] tracking-[-0.02em] leading-[0.96] [text-wrap:balance] [word-break:keep-all] [&_em]:italic [&_em]:font-normal [&_em]:tracking-[-0.015em] [&_em]:text-accent">
               Thirumoorthy<br class="md:hidden" /> <em>Ponnusamy.</em>
             </h1>
 
-            <p class="hero-tagline reveal delay-2 max-w-3xl">
-              <em class="serif-italic">Old-school dev.</em> I know the fundamentals
-              <span class="text-accent">&mdash;</span> and wield modern AI tools with knowledge.
+            <p
+              class="reveal delay-2 max-w-3xl font-display font-normal text-ink text-[clamp(1.375rem,2.6vw,2rem)] tracking-[-0.012em] leading-[1.3] [text-wrap:pretty] [&_em]:italic [&_em]:text-accent">
+              <em>Old-school dev.</em> I know the fundamentals
+              <span class="text-accent mx-1">&mdash;</span> and wield modern AI tools with knowledge.
             </p>
 
-            <p class="text-ink-soft text-lg md:text-xl leading-relaxed max-w-2xl reveal delay-3">
+            <p class="text-ink/85 text-[1.0625rem] md:text-[1.1875rem] leading-[1.65] max-w-[60ch] reveal delay-3 [text-wrap:pretty]">
               I architect and ship <span class="serif-italic text-ink">resilient</span> web platforms
-              &mdash; Angular, Node.js, AWS. 8+ years across SaaS, IoT and automotive. Agents and modern tools
-              are leverage, not substitutes for the fundamentals.
+              <span class="mx-1">&mdash;</span> Angular, Node.js, AWS. 8+ years <span class="serif-italic text-ink">so far</span>
+              across SaaS, IoT and automotive <span class="mx-1">&mdash;</span> the domain doesn't gate the work. Agents and modern
+              tools are leverage, not substitutes for the fundamentals.
             </p>
 
             <!-- Action row — status + CTAs -->
             <div class="pt-2 flex flex-wrap items-center gap-x-8 gap-y-4 reveal delay-3">
-              <a href="#contact" class="btn-ink">
+              <a href="#contact"
+                class="inline-flex items-center gap-2.5 px-6 py-3.5 border border-ink bg-ink text-paper font-medium text-[0.95rem] transition-all duration-200 hover:bg-accent hover:border-accent hover:-translate-y-px focus-visible:[outline-offset:4px]">
                 Start a conversation
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                   <path stroke-linecap="square" d="M5 12h14M13 5l7 7-7 7" />
                 </svg>
               </a>
-              <a href="#work" class="btn-outline">See the work</a>
+              <a href="#work"
+                class="inline-flex items-center gap-2.5 px-6 py-3.5 border border-ink bg-transparent text-ink font-medium text-[0.95rem] transition-all duration-200 hover:bg-ink hover:text-paper focus-visible:[outline-offset:4px]">See the work</a>
               <span class="mono text-xs uppercase tracking-widest text-muted inline-flex items-center gap-2">
                 <span class="dot-live" aria-hidden="true"></span>
                 Open to senior roles &amp; consulting
@@ -332,6 +364,14 @@
                   <text x="180" y="32" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">policy · PII</text>
                 </g>
+                <!-- HUMAN-IN-THE-LOOP (top-left, 120°) — review/escalation gate -->
+                <g>
+                  <circle cx="110" cy="59" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
+                  <text x="110" y="40" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
+                    font-size="8.5" letter-spacing="1.8" fill="#141619">HITL</text>
+                  <text x="110" y="50" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
+                    font-size="6.5" fill="#62666E">human · review</text>
+                </g>
                 <!-- RAG / INDEX (bottom-left, -150°) -->
                 <g>
                   <circle cx="59" cy="250" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
@@ -347,6 +387,12 @@
                     letter-spacing="1.8" fill="#141619">LLM · ADAPTER</text>
                   <text x="310" y="285" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">adk · genkit</text>
+                </g>
+                <!-- FINE-TUNING (bottom-right, -60°) — slow loop: traces → train → adapter -->
+                <g>
+                  <circle cx="250" cy="301" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
+                  <text x="250" y="322" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
+                    font-size="8.5" letter-spacing="1.8" fill="#141619">FINE-TUNING</text>
                 </g>
                 <!-- GATEWAY (top-left, 150°) -->
                 <g>
@@ -394,10 +440,10 @@
                 <p class="mono text-[10px] tracking-[0.22em] uppercase text-muted mb-3">
                   agent-centric &middot; production ai
                 </p>
-                <p class="serif text-lg md:text-xl leading-snug text-ink max-w-sm mx-auto">
-                  <em class="serif-italic">Need this shipped in production?</em>
+                <p class="font-display tracking-[-0.015em] text-lg md:text-xl leading-snug text-ink max-w-sm mx-auto">
+                  <em class="serif-italic">Architecting something like this?</em>
                   <a href="#contact" class="link-arrow text-accent ml-1 whitespace-nowrap">
-                    Let's talk
+                    Let's think it through
                     <svg class="arrow w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                       stroke-width="1.5">
                       <path stroke-linecap="square" d="M7 17L17 7M8 7h9v9" />
@@ -413,7 +459,7 @@
         <div class="mt-14 md:mt-20 pt-8 rule grid grid-cols-2 md:grid-cols-4 gap-6 reveal delay-3">
           <div>
             <p class="eyebrow mb-2">Current</p>
-            <p class="text-sm font-medium">Technical Lead<br /><span class="text-muted">TrusTrace</span></p>
+            <p class="text-sm font-medium">Technical Lead<br /><a href="https://trustrace.com" target="_blank" rel="noopener noreferrer" class="text-muted underline decoration-rule decoration-1 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors">TrusTrace</a></p>
           </div>
           <div>
             <p class="eyebrow mb-2">Experience</p>
@@ -455,7 +501,7 @@
               <div class="tui-lights" aria-hidden="true">
                 <span></span><span></span><span></span>
               </div>
-              <p class="tui-title">moorthy@moorthy-pc &middot; ~/portfolio &mdash; agent</p>
+              <p class="tui-title">thirumoorthy@thirumoorthy-pc &middot; ~/portfolio &mdash; agent</p>
             </div>
 
             <div class="tui-body" data-tui-stream role="log" aria-live="polite" aria-atomic="false">
@@ -681,19 +727,32 @@
         <div class="grid md:grid-cols-12 gap-8 md:gap-16">
           <div class="md:col-span-4">
             <p class="section-label reveal">01 / About</p>
+            <figure class="mt-6 reveal delay-1 w-[140px] h-[140px] rounded-full overflow-hidden bg-paper-raised/40">
+              <img src="/portrait.svg" alt="" width="140" height="140" class="w-full h-full block" />
+            </figure>
             <!-- numbering starts at About; Workflow is an unnumbered set piece -->
-            <h2 class="section-heading mt-3 reveal delay-1">
+            <h2 class="section-heading mt-6 reveal delay-2">
               Engineer who thinks like a <em class="serif-italic text-accent">product owner</em>.
             </h2>
           </div>
 
-          <div class="md:col-span-7 md:col-start-6 text-lg leading-relaxed text-ink-soft reveal delay-2">
+          <div class="md:col-span-7 md:col-start-6 text-lg leading-relaxed text-ink-soft reveal delay-2 space-y-5">
             <p>
-              Technical Lead at TrusTrace, driving frontend architecture across SaaS, IoT and automotive. I lead
-              Angular and micro-frontend modernizations, roll out design systems that outlast refactors, and
-              build self-service AI portals that run with <span class="serif-italic text-ink">zero ongoing
-              developer babysitting</span>. I care about the craft — clean abstractions, fast feedback loops,
-              predictable deploys — but I care more about teams and outcomes. Usually those are the same thing.
+              Technical Lead at TrusTrace, owning frontend architecture across the supply-chain traceability
+              platform — fashion, food, and circular-fashion verticals. Took the codebase through full
+              <span class="serif-italic text-ink">modularisation</span> into a micro-frontend topology so squads
+              ship independently, drove a <span class="serif-italic text-ink">cross-product design system</span>
+              that outlasts refactors, and bootstrapped most of the platform's newer modules — DPP, supplier
+              and supply-chain management, audit, Power BI analytics — handing each off to teams while staying on
+              architecture calls. Currently building out
+              <span class="serif-italic text-ink">AI enablement</span> across the org: RAG-grounded agents,
+              automated human-in-the-loop PR reviews, <span class="serif-italic text-ink">abstraction layers</span>
+              that keep agent behaviour consistent across tools, and the eval surface to measure it.
+            </p>
+            <p>
+              The product-owner instinct: I worry less about the elegance of an abstraction than whether the team
+              using it ships faster six months from now. <span class="serif-italic text-ink">Same for AI
+              tooling</span> — leverage only counts if it survives a quarter of real production use.
             </p>
           </div>
         </div>
@@ -710,86 +769,164 @@
               Systems I've <em class="serif-italic">shipped</em>.
             </h2>
           </div>
-          <p class="hidden md:block mono text-xs uppercase tracking-widest text-muted reveal delay-2">2019 &rarr; Now</p>
+          <p class="hidden md:block mono text-xs uppercase tracking-widest text-muted reveal delay-2">Highlights &middot; metric-led</p>
         </div>
 
         <div class="reveal delay-2">
           <article class="work-item">
             <div class="work-index">01</div>
             <div>
-              <h3>TrusTrace Sustainability Platform</h3>
+              <h3>Sustainability Score Engine</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                10 parameters &middot; 26,000+ products &middot; real-time scoring.
+              </p>
               <p>
-                Led the Angular modernization and introduced both monolithic-modular and micro-frontend patterns.
-                <span class="serif-italic text-ink">Multiple product squads now ship independently</span> on a
-                shared design system, with governance automated across repos.
+                Built the data-collection + score-calculation platform for a major Swedish food retailer's
+                traceability platform. Brand-facing UI for suppliers to upload sustainability data; consumer-facing
+                API consumed by the retailer's app where shoppers
+                <span class="serif-italic text-ink">scan EAN barcodes in-store</span> to see a 10-parameter
+                spider chart (biodiversity, climate, …). Year-long build with multi-module self-service surfaces;
+                ran for a year post-launch with zero dev involvement.
               </p>
               <div>
                 <span class="tag-chip">Angular</span>
-                <span class="tag-chip">Micro Frontends</span>
-                <span class="tag-chip">Design System</span>
-                <span class="tag-chip">Signals · NgRx</span>
+                <span class="tag-chip">Java &middot; Spring Boot</span>
+                <span class="tag-chip">Node.js</span>
+                <span class="tag-chip">AWS</span>
+                <span class="tag-chip">Score Engine</span>
               </div>
             </div>
-            <div class="work-meta">Platform<br />SaaS · 2019—</div>
+            <div class="work-meta">SaaS<br />Sustainability &middot; 2020&mdash;21</div>
           </article>
 
           <article class="work-item">
             <div class="work-index">02</div>
             <div>
-              <h3>Zero-Maintenance AI Portals</h3>
+              <h3>Codebase &rarr; Micro-frontend Topology</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                Squads ship independently. Releases decoupled.
+              </p>
               <p>
-                Architected AI-driven self-service portals on AWS Lambda and Azure Functions. LLM-backed agents
-                now own governance, documentation and operational workflows that
-                <span class="serif-italic text-ink">used to burn weekly engineer-hours</span>. Zero ongoing
-                developer maintenance since launch.
+                The platform was a monolithic Angular codebase with a shared release cadence — one team's bug
+                blocked everyone's release. Architected full
+                <span class="serif-italic text-ink">modularisation</span> (libs + modules pattern), then converted
+                into a micro-frontend topology with the surrounding tooling so squads ship without coordinating
+                and onboarding is AGENTS.md-driven.
               </p>
               <div>
-                <span class="tag-chip">Node.js</span>
-                <span class="tag-chip">AWS Lambda</span>
-                <span class="tag-chip">Azure Functions</span>
-                <span class="tag-chip">LLM Agents</span>
+                <span class="tag-chip">Angular</span>
+                <span class="tag-chip">Native Federation</span>
+                <span class="tag-chip">Micro Frontends</span>
+                <span class="tag-chip">Monorepo</span>
+                <span class="tag-chip">Tooling &middot; DX</span>
               </div>
             </div>
-            <div class="work-meta">AI · Serverless<br />2023—</div>
+            <div class="work-meta">Architecture<br />Platform &middot; 2022&mdash;</div>
           </article>
 
           <article class="work-item">
             <div class="work-index">03</div>
             <div>
-              <h3>Playwright QA Framework</h3>
+              <h3>Cross-Product Design System</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                One visual language across designers and engineers.
+              </p>
               <p>
-                Architected the E2E automation framework from scratch, automated a core business module end-to-end,
-                and ran hands-on training so
-                <span class="serif-italic text-ink">product QAs own their own coverage</span> instead of routing
-                through engineering.
+                Platform UI had drifted across products — same patterns, different implementations, designer ↔
+                engineer gaps surfacing in every review. Partnered with design to extract the shared language —
+                <span class="serif-italic text-ink">tokens, reusable components, a Storybook + docs portal</span>
+                as the multi-product source of truth, plus AI-integration affordances so agent-driven changes stay
+                on-system. Outlasts refactors.
               </p>
               <div>
-                <span class="tag-chip">Playwright</span>
-                <span class="tag-chip">TypeScript</span>
-                <span class="tag-chip">CI/CD</span>
-                <span class="tag-chip">Enablement</span>
+                <span class="tag-chip">Design System</span>
+                <span class="tag-chip">Storybook</span>
+                <span class="tag-chip">Tokens</span>
+                <span class="tag-chip">Docs Portal</span>
+                <span class="tag-chip">Cross-Functional</span>
               </div>
             </div>
-            <div class="work-meta">Quality · DX<br />2022—</div>
+            <div class="work-meta">UI &middot; Platform<br />2024&mdash;</div>
           </article>
 
           <article class="work-item">
             <div class="work-index">04</div>
             <div>
-              <h3>FCA Infotainment Prototyping</h3>
+              <h3>AI Enablement Layer</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                Tool-agnostic agents — with the eval surface to prove it.
+              </p>
               <p>
-                Infotainment and instrument cluster prototypes for Fiat Chrysler
-                <span class="serif-italic text-ink">pre-production user testing</span>. Also prototyped a
-                voice-automation Android assistant and shipped MEAN-stack internal tooling.
+                Engineering teams adopting AI coding tools (Cursor, Copilot, Claude Code, Codex) hit inconsistent
+                agent behaviour and no way to measure it. Built the
+                <span class="serif-italic text-ink">abstraction layer</span> that normalises behaviour across
+                tools, RAG-grounded agents over the codebase + architecture docs, automated human-in-the-loop PR
+                reviews, and the <span class="serif-italic text-ink">eval surface</span> to track quality over
+                time. Tool-agnostic by design.
               </p>
               <div>
-                <span class="tag-chip">MEAN</span>
-                <span class="tag-chip">Android</span>
-                <span class="tag-chip">Voice AI</span>
-                <span class="tag-chip">Prototyping</span>
+                <span class="tag-chip">RAG</span>
+                <span class="tag-chip">Agents</span>
+                <span class="tag-chip">HITL</span>
+                <span class="tag-chip">Evals</span>
+                <span class="tag-chip">MCP &middot; AGENTS.md</span>
               </div>
             </div>
-            <div class="work-meta">Automotive · IoT<br />2018—2019</div>
+            <div class="work-meta">AI &middot; DevX<br />2026&mdash;</div>
+          </article>
+
+          <article class="work-item">
+            <div class="work-index">05</div>
+            <div>
+              <h3>Playwright Regression Framework</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                Manual regression: days &rarr; hours.
+              </p>
+              <p>
+                The regression suite was eating multiple days every release. Architected and seeded the team's
+                Playwright framework — page-object pattern, scaffolded for QAs to extend without engineering
+                handholding. Automated <span class="serif-italic text-ink">one module to 100% coverage</span>
+                and handed it off to the QA team, with <span class="serif-italic text-ink">multi-actor parallel scenarios</span>
+                (supplier &middot; brand &middot; auditor) running on the same flow. Built on web-first assertions
+                and stable locators — no <code class="font-mono text-[0.85em] bg-rule/40 px-1 rounded">waitForTimeout</code>
+                antipattern, no flaky tests. As an
+                <span class="serif-italic text-ink">enabler</span> the framework now spreads across modules,
+                team-owned.
+              </p>
+              <div>
+                <span class="tag-chip">Playwright</span>
+                <span class="tag-chip">TypeScript</span>
+                <span class="tag-chip">Page Object Model</span>
+                <span class="tag-chip">Multi-Actor &middot; Parallel</span>
+                <span class="tag-chip">QA Enablement</span>
+              </div>
+            </div>
+            <div class="work-meta">Quality &middot; DX<br />2022&mdash;</div>
+          </article>
+
+          <article class="work-item">
+            <div class="work-index">06</div>
+            <div>
+              <h3>Infor CPQ Migration &middot; Automation Layer</h3>
+              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
+                5&times; throughput. ~20 &rarr; 100+ projects/week.
+              </p>
+              <p>
+                Joined an in-flight migration project into <a href="https://www.infor.com/solutions/service-sales/configure-price-quote" target="_blank" rel="noopener noreferrer" class="underline decoration-rule decoration-1 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors">Infor CPQ</a> (Infor's
+                Configure-Price-Quote product) — manual conversion was capacity-bound at ~20 projects per week. Built a
+                Python + pandas automation layer on top that handled the conversion
+                <span class="serif-italic text-ink">without quality loss</span>. Throughput scaled to 100+
+                projects/week — a 5× lift sustained for the rest of the engagement, freeing delivery for
+                higher-leverage work.
+              </p>
+              <div>
+                <span class="tag-chip">Python</span>
+                <span class="tag-chip">pandas</span>
+                <span class="tag-chip">Data Migration</span>
+                <span class="tag-chip">Automation</span>
+              </div>
+            </div>
+            <div class="work-meta">Data<br />Altran &middot; 2018</div>
           </article>
         </div>
       </div>
@@ -805,49 +942,36 @@
               The <em class="serif-italic">journey</em>.
             </h2>
           </div>
-          <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2">
-            Product Engineer → Senior → Technical Lead at TrusTrace over six years, preceded by automotive and
-            IoT work at Altran / FCA.
+          <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2" data-experience-intro>
+            Loading…
           </p>
         </div>
 
-        <div class="reveal delay-2">
-          <div class="exp-row">
-            <div class="exp-years">APR 2022 — NOW</div>
-            <div>
-              <h3>Technical Lead</h3>
-              <p class="exp-company">TrusTrace · Remote (Coimbatore)</p>
-              <p>
-                Leading frontend architecture across product lines. Adoption of modern Angular, both monolithic-
-                modular and micro-frontend, AI-driven dev acceleration, automated governance, and a shared design
-                system built with UI/UX. Manage cross-functional delivery and external stakeholder comms.
-              </p>
-            </div>
-          </div>
+        <div class="reveal delay-2" data-experience-rows>
+          <p class="text-muted">Loading…</p>
+        </div>
+      </div>
+    </section>
 
-          <div class="exp-row">
-            <div class="exp-years">DEC 2019 — APR 2022</div>
-            <div>
-              <h3>Senior Software Engineer · Product Engineer</h3>
-              <p class="exp-company">TrusTrace · Coimbatore</p>
-              <p>
-                Shipped core product surfaces end-to-end as the platform took shape. Led feature squads, drove
-                performance work, and mentored engineers through complex architectural handoffs.
-              </p>
-            </div>
+    <!-- 04 COMMUNITY -->
+    <section id="community" class="py-24 md:py-32 px-5 sm:px-8 bg-paper-raised">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid md:grid-cols-12 gap-8 md:gap-16 mb-12 md:mb-16">
+          <div class="md:col-span-4">
+            <p class="section-label reveal">04 / Community</p>
+            <h2 class="section-heading mt-3 reveal delay-1">
+              Talks, mentoring, <em class="serif-italic">and writing</em>.
+            </h2>
           </div>
+          <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2">
+            Workshops at engineering colleges, judging student projects abroad, mentoring early-career engineers,
+            and the occasional long-form on AI tooling.
+          </p>
+        </div>
 
-          <div class="exp-row">
-            <div class="exp-years">DEC 2018 — NOV 2019</div>
-            <div>
-              <h3>Consultant — Fiat Chrysler Automobiles</h3>
-              <p class="exp-company">Altran Technologies (now Capgemini) · Chennai</p>
-              <p>
-                Infotainment and cluster prototypes for pre-production user testing. MEAN-stack internal tooling
-                and a voice-automation Android prototype.
-              </p>
-            </div>
-          </div>
+        <div class="reveal delay-2 space-y-12" data-community-rows>
+          <!-- Rows hydrated at runtime from /data/community.json by community.ts -->
+          <p class="text-muted">Loading…</p>
         </div>
       </div>
     </section>
@@ -855,7 +979,7 @@
     <!-- 05 CONTACT -->
     <section id="contact" class="contact-dark py-28 md:py-40 px-5 sm:px-8 bg-ink text-paper">
       <div class="mx-auto max-w-6xl">
-        <p class="section-label reveal">04 / Contact</p>
+        <p class="section-label reveal">05 / Contact</p>
         <h2 class="section-heading mt-4 reveal delay-1 max-w-4xl text-paper">
           Have a hard problem <em class="serif-italic text-accent-soft">worth solving</em>? Let's talk.
         </h2>
@@ -868,6 +992,7 @@
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a href="https://www.linkedin.com/in/moorthyptm/" target="_blank" rel="noopener noreferrer"
+                data-scratch-reveal
                 class="inline-flex items-center gap-2 bg-paper text-ink px-6 py-3.5 font-medium hover:bg-accent hover:text-paper transition-colors">
                 Connect on LinkedIn
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -891,8 +1016,11 @@
                 <p class="text-sm text-paper">Coimbatore, Tamil Nadu · India</p>
               </div>
               <div>
-                <p class="eyebrow mb-2">Timezone</p>
-                <p class="text-sm text-paper">GMT +5:30 IST</p>
+                <p class="eyebrow mb-2">Local time</p>
+                <p class="text-sm text-paper">
+                  <span data-local-time>--:-- IST</span>
+                  <span class="text-muted-soft">&middot; GMT +5:30</span>
+                </p>
               </div>
               <div>
                 <p class="eyebrow mb-2">Status</p>
@@ -923,8 +1051,7 @@
     </div>
   </footer>
 
-  <script type="module" src="./script.ts"></script>
-  <script type="module" src="./chat.ts"></script>
+  <script type="module" src="./boot.ts"></script>
 </body>
 
 </html>

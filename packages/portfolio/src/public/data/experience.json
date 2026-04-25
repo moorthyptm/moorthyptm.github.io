@@ -1,0 +1,169 @@
+{
+  "intro": "Product Engineer → Senior → Technical Lead at TrusTrace over six years, preceded by automotive and IoT work at Altran / FCA.",
+  "rows": [
+    {
+      "years": "APR 2022 — NOW",
+      "title": "Technical Lead",
+      "company": { "text": "TrusTrace", "url": "https://trustrace.com" },
+      "location": "Remote (Coimbatore)",
+      "paragraphs": [
+        [
+          "Promoted to lead the platform team. Architected the codebase's full ",
+          { "em": "modularisation" },
+          " — libs + modules pattern, then converted into a ",
+          { "em": "Native Federation micro-frontend topology" },
+          " for faster releases and decoupled deploys, with the surrounding tooling so teams ship independently. Built integrated admin modules — ",
+          { "em": "self-service surfaces for the BS team" },
+          " to serve customers directly, taking engineering off the critical path for routine operations. Acted as ",
+          { "em": "enabler" },
+          " across new module work — bootstrapped from scratch, handed off to teams with knowledge transfer, then kept guiding through design and architecture calls. ",
+          { "em": "Named and ran the genesis of DPP" },
+          " (Digital Product Passport, the platform's flagship 2023→ workstream); plus supplier data management, supply-chain management, PO tracing, audit, assessment, system-auth + permissions, and ",
+          { "link": "Power BI", "url": "https://powerbi.microsoft.com/" },
+          "–embedded analytics with the data team. Also supported the transaction module."
+        ],
+        [
+          "Delivered the ",
+          { "em": "circularity product" },
+          " end-to-end — tracing washing, repair, tailoring and resale flows for circular fashion. Architected and seeded the team's ",
+          { "link": "Playwright", "url": "https://playwright.dev/" },
+          " ",
+          { "em": "regression framework" },
+          " (page-object pattern, automated one module to 100% coverage and handed it off to the QA team — manual regression compressed from days to hours; framework now extends across modules team-owned). Drove a ",
+          { "em": "cross-product design system" },
+          " — ",
+          { "link": "Storybook", "url": "https://storybook.js.org/" },
+          " + docs portal, shared components, AI-integration affordances, surfacing designer ↔ engineer inconsistencies. Owned legacy modernisation, PR-review standards, hiring + technical enablement, scrum-event facilitation, mentoring and cross-functional delivery throughout."
+        ],
+        [
+          "Currently building out ",
+          { "em": "AI enablement" },
+          " across the org — RAG-grounded agents, automated ",
+          { "em": "human-in-the-loop PR reviews" },
+          ", and AI governance guardrails for the ",
+          { "link": "Angular", "url": "https://angular.dev/" },
+          " + ",
+          { "link": "Node.js", "url": "https://nodejs.org/" },
+          " codebases. Built the ",
+          { "em": "abstraction layers" },
+          " that keep agent behaviour consistent across tools (Cursor, Copilot, Claude Code, Codex) plus the ",
+          { "em": "eval surface" },
+          " to measure it. Shipped the ",
+          { "em": "Forge merge-check Atlassian app" },
+          " for AI-assisted PR review, authored the ",
+          { "em": "AGENTS.md governance convention" },
+          " adopted org-wide, and maintain the team playbook (coding-example skills, design-system grounding, faster-prototyping affordances). Integrated knowledge bases and architecture docs into the loop, with the supporting process defined."
+        ]
+      ]
+    },
+    {
+      "years": "DEC 2019 — APR 2022",
+      "title": "Product Engineer → Senior Software Engineer",
+      "company": { "text": "TrusTrace", "url": "https://trustrace.com" },
+      "location": "Coimbatore",
+      "paragraphs": [
+        [
+          "Joined a 20-person team on the fashion traceability platform — initially hands-on across modules with product owners, designers and QA, owning end-to-end delivery plus ops. Then led the platform's extension into a ",
+          { "em": "new food vertical" },
+          " for a major Swedish food retailer: a retailer–supplier sustainability-data collaboration platform on Angular + ",
+          { "link": "Java Spring Boot", "url": "https://spring.io/projects/spring-boot" },
+          " + Node.js + ",
+          { "link": "AWS", "url": "https://aws.amazon.com/" },
+          ". Built the data-collection + score-calculation platform — brand-facing UI for suppliers to upload sustainability data, consumer-facing API consumed by the retailer's app where shoppers ",
+          { "em": "scan EAN barcodes in-store" },
+          ". Resolves 10 sustainability parameters (biodiversity, climate, …) into a spider chart; ",
+          { "em": "authored the foundational pseudocode for the parameter calculations" },
+          "."
+        ],
+        [
+          "Drove the fashion vertical's cloud migration, contributed to ",
+          { "em": "TT 2.0 strategic platform planning" },
+          ", and led frontend hiring (JD authoring + Angular interviews) — alongside ongoing ",
+          { "link": "MongoDB", "url": "https://www.mongodb.com/" },
+          " / ",
+          { "link": "Elasticsearch", "url": "https://www.elastic.co/elasticsearch" },
+          " performance optimisation."
+        ]
+      ]
+    },
+    {
+      "years": "DEC 2018 — NOV 2019",
+      "title": "Consultant — FCA (Fiat Chrysler Automobiles)",
+      "titleClient": { "text": "Fiat Chrysler Automobiles", "url": "https://www.stellantis.com" },
+      "company": { "text": "Altran Technologies (now Capgemini)", "url": "https://www.capgemini.com" },
+      "location": "Chennai",
+      "paragraphs": [
+        [
+          "Infotainment + instrument-cluster prototypes for FCA pre-production ",
+          { "em": "A/B user testing" },
+          ". Migrated their Angular surfaces forward and prototyped ",
+          { "em": "3D vehicle documentation" },
+          " in ",
+          { "link": "Babylon.js", "url": "https://www.babylonjs.com/" },
+          " / ",
+          { "link": "Three.js", "url": "https://threejs.org/" },
+          ". Plus a voice-automation Android assistant for in-car interaction, AI training-data labeling, and full-stack MEAN contributions to FCA internal employee portals. Mentored the team throughout the engagement."
+        ]
+      ]
+    },
+    {
+      "years": "JUL 2017 — NOV 2018",
+      "title": "Junior Engineer · Intern",
+      "company": { "text": "Altran Technologies", "url": "https://www.capgemini.com" },
+      "companySuffix": "(formerly Pricol Technologies, now Capgemini)",
+      "location": "Coimbatore",
+      "paragraphs": [
+        [
+          "Joined as intern in July, converted to full-time by November. Mixed-bag year on the testing & migration side: ",
+          { "link": "Postman", "url": "https://www.postman.com/" },
+          "/",
+          { "link": "Newman", "url": "https://github.com/postmanlabs/newman" },
+          " API automation in CI (",
+          { "em": "100% endpoint coverage" },
+          "), ",
+          { "link": "Mocha", "url": "https://mochajs.org/" },
+          " unit tests for Node.js ",
+          { "link": "Lambda", "url": "https://aws.amazon.com/lambda/" },
+          " functions (~50% coverage), ",
+          { "link": "Protractor", "url": "https://www.protractortest.org/" },
+          " E2E suites for Angular apps (100% on critical modules — sharply cut regression effort), and ",
+          { "link": "AngularJS", "url": "https://angularjs.org/" },
+          " → Angular 2 migration trials."
+        ],
+        [
+          "Also shipped a ",
+          { "em": "production cloud-managed smart-locker product" },
+          " (RFID/keypad access, multi-bay charging) with ",
+          { "link": "MQTT", "url": "https://mqtt.org/" },
+          " linking firmware to a serverless Node.js backend (AWS Lambda + SQL DB) and ",
+          { "link": "Node-RED", "url": "https://nodered.org/" },
+          " for simulation, plus IoT-integration prototypes streaming realtime temperature and CNC sensor readings over MQTT to live dashboards. Pen-testing across API and UI — identified critical vulnerabilities and shipped RBAC + multi-tenancy fixes. And built ",
+          { "link": "Python", "url": "https://www.python.org/" },
+          "/",
+          { "link": "pandas", "url": "https://pandas.pydata.org/" },
+          " automation on top of an in-flight ",
+          { "link": "Infor CPQ", "url": "https://www.infor.com/solutions/service-sales/configure-price-quote" },
+          " (Configure-Price-Quote) migration project — pushed throughput from ~20 to 100+ projects per week without quality loss."
+        ]
+      ]
+    },
+    {
+      "years": "JUL 2016 — SEP 2016",
+      "title": "Paid Intern",
+      "company": { "text": "iQube", "url": "https://iqubekct.ac.in/" },
+      "companyExtra": { "text": "Kumaraguru College of Technology", "url": "https://kct.ac.in/", "joiner": " — " },
+      "location": "Coimbatore",
+      "paragraphs": [
+        [
+          "Part-time on-campus paid internship while still in engineering. Contributed to the innovation centre's private internal management system. Stack: HTML, CSS, ",
+          { "link": "Materialize CSS", "url": "https://materializecss.com/" },
+          ", ",
+          { "link": "PHP", "url": "https://www.php.net/" },
+          ", ",
+          { "link": "MySQL", "url": "https://www.mysql.com/" },
+          "."
+        ]
+      ]
+    }
+  ]
+}

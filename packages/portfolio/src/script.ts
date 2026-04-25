@@ -78,7 +78,7 @@
     return wrap;
   };
 
-  const sweepTargets = document.querySelectorAll('.hero-name, .section-heading');
+  const sweepTargets = document.querySelectorAll('#home h1, .section-heading');
   const sweepWraps: HTMLSpanElement[] = [];
   sweepTargets.forEach(el => sweepWraps.push(wrapForSweep(el)));
 
@@ -200,3 +200,5 @@
     }
   }
 })();
+
+export {};

@@ -34,18 +34,15 @@
       <header class="agent-chat-header">
         <div>
           <div class="agent-chat-title">Portfolio Agent</div>
-          <div class="agent-chat-sub">A2A · grounded in Thirumoorthy's profile</div>
+          <div class="agent-chat-sub">Grounded in his profile and work</div>
         </div>
         <button class="agent-chat-close" type="button" aria-label="Close chat">×</button>
       </header>
-      <div class="agent-chat-hint">
-        Ask about experience, stack, or past projects. Recruiters: share your role &amp; company and I'll match the fit.
-      </div>
       <div class="agent-chat-messages" role="log" aria-live="polite" aria-atomic="false"></div>
       <form class="agent-chat-form" autocomplete="off">
         <input class="agent-chat-input" type="text" id="agent-chat-input"
                name="message" maxlength="2000" required
-               placeholder="What's his current role?" aria-label="Message" />
+               placeholder="Ask a question…" aria-label="Message" />
         <button class="agent-chat-submit" type="submit" aria-label="Send">→</button>
       </form>
     </section>
@@ -72,7 +69,7 @@
       if (messages.childElementCount === 0) {
         appendMessage(
           "assistant",
-          "Hi — I'm the portfolio agent. I can answer about Thirumoorthy's experience, stack, and past work. If you're recruiting, share your company + role and I'll tell you honestly whether it's a fit.",
+          "Ask me about Thirumoorthy's experience, stack, or past projects.",
         );
       }
     }
@@ -251,3 +248,5 @@
     if (e.key === "Escape" && !drawer.hidden) toggleDrawer(false);
   });
 })();
+
+export {};
