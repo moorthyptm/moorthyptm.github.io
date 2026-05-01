@@ -4,8 +4,10 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  # Fired by moorthyptm/portfolio-agent on public/data/*.json changes.
+  repository_dispatch:
+    types: [agent-data-changed]
 
-# Only one deploy at a time; cancel any in-flight builds when a new push lands.
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -25,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout
+      - name: Checkout portfolio
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -44,21 +46,35 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Vite plugin caches agent JSON keyed by ETag. On cache hit + 304 from
+      # the agent, the build skips downloading + re-parses the cached body.
+      - name: Cache agent JSON
+        uses: actions/cache@v4
+        with:
+          path: packages/portfolio/node_modules/.vite/agent-cache
+          key: agent-data-${{ runner.os }}-${{ hashFiles('packages/portfolio/build-schemas.ts') }}
+
       - name: Typecheck
         run: pnpm --filter @moorthyptm/portfolio typecheck
 
       - name: Build
+        env:
+          # Build-time fetch source for JSON; also baked into the deployed
+          # page as the runtime chat endpoint.
+          PORTFOLIO_AGENT_ENDPOINT: ${{ vars.PORTFOLIO_AGENT_ENDPOINT || 'https://agent.moorthyptm.com' }}
         run: pnpm --filter @moorthyptm/portfolio build
 
-      - name: Verify build artefacts
+      - name: Verify artefacts
         run: |
           test -f packages/portfolio/dist/index.html
           test -d packages/portfolio/dist/assets
-          test -f packages/portfolio/dist/data/community.json
-          test -f packages/portfolio/dist/data/experience.json
           test -f packages/portfolio/dist/robots.txt
           du -sh packages/portfolio/dist
-          ls -la packages/portfolio/dist
+
+      - name: Security audit
+        # Static checks: token leaks, off-whitelist URLs, inline handlers,
+        # dangerous elements, required meta tags.
+        run: pnpm --filter @moorthyptm/portfolio run verify:dist
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

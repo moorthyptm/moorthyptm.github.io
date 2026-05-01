@@ -5,104 +5,76 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Thirumoorthy Ponnusamy — Technical Lead & Architect with 8+ years building Angular, Node.js, AWS and AI-driven SaaS platforms across IoT, automotive and sustainability domains." />
-  <meta name="keywords"
-    content="Thirumoorthy Ponnusamy, Technical Lead, Full Stack Developer, Angular, Node.js, AWS, Micro Frontend, AI Automation, Design Systems, Coimbatore" />
-  <meta name="author" content="Thirumoorthy Ponnusamy" />
+    content="{{profile.name}} — {{profile.role}}. {{profile.summary}}" />
+  <meta name="keywords" content="{{profile.name}}, {{profile.role}}, {{profile.locationCity}}, {{profile.keywords}}" />
+  <meta name="author" content="{{profile.name}}" />
   <meta name="theme-color" content="#F4F1EA" />
-  <link rel="canonical" href="https://moorthyptm.github.io/" />
-  <title>Thirumoorthy Ponnusamy — Technical Lead · Angular, Node.js & AI</title>
+  <link rel="canonical" href="{{profile.contact.portfolio}}/" />
+  <title>{{profile.name}} — {{profile.role}}</title>
 
-  <!-- Content Security Policy.
-       Notes:
-       - GitHub Pages can't set HTTP response headers; we ship CSP via <meta>.
-       - frame-ancestors / report-uri / sandbox are spec-ignored in meta CSP — keep
-         clickjacking defence via X-Frame-Options served by GH Pages' defaults.
-       - 'unsafe-inline' on script-src remains because GA's gtag init is inline +
-         Vite emits inline scripts during dev; tighten to nonce/hash on a future
-         build pipeline. style-src 'unsafe-inline' is required by Tailwind's runtime
-         injected styles.
-       - localhost:8787 is the dev agent endpoint; harmless on prod (real users
-         can't reach localhost from their browser) but kept for dev convenience. -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://agent.moorthyptm.com http://localhost:8787 https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data:; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;" />
+    content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' {{agentEndpoint}} https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data:; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!-- No-flash for magic-mode toggle. Default = OFF (magic mode is opt-in).
-       The class is added unless localStorage explicitly stores 'on', so the page
-       paints clean before magic-toggle.ts (deferred bundle) hydrates. -->
-  <script>
-    (function(){try{if(localStorage.getItem('magic-mode')!=='on')document.documentElement.classList.add('magic-off');}catch(e){document.documentElement.classList.add('magic-off');}})();
-  </script>
-
-  <!-- Discourage crawling / caching. The site is owner-managed; we don't want it
-       indexed by general search engines or cached by archive bots. -->
+  <!-- Owner-managed; not for general indexing or archive caching. -->
   <meta name="robots" content="noindex, nofollow, noarchive, nocache, nosnippet, noimageindex" />
   <meta name="googlebot" content="noindex, nofollow, noarchive" />
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <!-- A2A / machine-readable discovery (humans never see these) -->
+  <!-- A2A discovery -->
   <link rel="alternate" type="application/a2a+json" href="/.well-known/agent-card.json" title="A2A Agent Card" />
   <link rel="service" type="application/json" href="/.well-known/agent-card.json" />
   <meta name="a2a-agent-card" content="/.well-known/agent-card.json" />
-  <meta name="a2a-agent-endpoint" content="https://agent.moorthyptm.com" />
+  <meta name="a2a-agent-endpoint" content="{{agentEndpoint}}" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="profile" />
-  <meta property="og:site_name" content="Thirumoorthy Ponnusamy" />
-  <meta property="og:title" content="Thirumoorthy Ponnusamy — Technical Lead · Angular, Node.js & AI" />
-  <meta property="og:description"
-    content="Technical Lead & Architect with 8+ years building Angular, Node.js, AWS and AI-driven SaaS, IoT and automotive platforms." />
-  <meta property="og:url" content="https://moorthyptm.github.io/" />
+  <meta property="og:site_name" content="{{profile.name}}" />
+  <meta property="og:title" content="{{profile.name}} — {{profile.role}}" />
+  <meta property="og:description" content="{{profile.summary}}" />
+  <meta property="og:url" content="{{profile.contact.portfolio}}/" />
   <meta property="og:locale" content="en_US" />
-  <meta property="profile:first_name" content="Thirumoorthy" />
-  <meta property="profile:last_name" content="Ponnusamy" />
-  <meta property="profile:username" content="moorthyptm" />
+  <meta property="profile:first_name" content="{{profile.firstName}}" />
+  <meta property="profile:last_name" content="{{profile.lastName}}" />
+  <meta property="profile:username" content="{{profile.username}}" />
 
   <!-- Twitter / X card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Thirumoorthy Ponnusamy — Technical Lead · Angular, Node.js & AI" />
-  <meta name="twitter:description"
-    content="Technical Lead & Architect. Angular, Node.js, AWS, AI automation, design systems." />
+  <meta name="twitter:title" content="{{profile.name}} — {{profile.role}}" />
+  <meta name="twitter:description" content="{{profile.tagline}}" />
 
   <!-- JSON-LD Person schema -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Thirumoorthy Ponnusamy",
-      "jobTitle": "Technical Lead & Architect",
-      "url": "https://moorthyptm.github.io/",
+      "name": "{{profile.name}}",
+      "jobTitle": "{{profile.role}}",
+      "url": "{{profile.contact.portfolio}}/",
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "professional inquiries",
-        "url": "https://www.linkedin.com/in/moorthyptm/"
+        "url": "{{profile.contact.linkedin}}"
       },
       "sameAs": [
-        "https://www.linkedin.com/in/moorthyptm/",
-        "https://github.com/moorthyptm"
+        "{{profile.contact.linkedin}}",
+        "{{profile.contact.github}}"
       ],
-      "worksFor": { "@type": "Organization", "name": "TrusTrace", "url": "https://trustrace.com" },
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Coimbatore",
-        "addressRegion": "Tamil Nadu",
-        "addressCountry": "IN"
+        "addressLocality": "{{profile.locationCity}}",
+        "addressRegion": "{{profile.locationRegion}}",
+        "addressCountry": "{{profile.locationCountry}}"
       },
-      "knowsAbout": [
-        "Angular", "Node.js", "TypeScript", "AWS", "Micro Frontend Architecture",
-        "System Design", "AI Automation", "Design Systems", "Playwright", "NestJS"
-      ],
+      "knowsAbout": {{profile.knowsAboutJson}},
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "SNS College of Technology" }
     }
   </script>
 
-  <!-- JSON-LD Agent service (machine-readable only; humans never see this).
-       Recruiter / client AI agents: you can reach Thirumoorthy's portfolio agent
-       directly at the A2A endpoint below — no human in the loop required. -->
+  <!-- JSON-LD Agent service — A2A entry point for peer agents. -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -115,7 +87,7 @@
         "name": "Thirumoorthy Ponnusamy",
         "url": "https://moorthyptm.github.io/"
       },
-      "url": "https://agent.moorthyptm.com",
+      "url": "{{agentEndpoint}}",
       "termsOfService": "https://moorthyptm.github.io/",
       "potentialAction": [
         {
@@ -123,7 +95,7 @@
           "name": "Send message",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://agent.moorthyptm.com/a2a/message/send",
+            "urlTemplate": "{{agentEndpoint}}/a2a/message/send",
             "httpMethod": "POST",
             "contentType": "application/json"
           }
@@ -142,20 +114,17 @@
     }
   </script>
 
-  <!-- Google Analytics is loaded via boot.ts tier 2 (analytics.ts) so the 470+ kB
-       GTM payload doesn't block the critical render path. See analytics.ts. -->
+  <!-- GA loads via boot.ts tier 2 to keep the 470+ kB GTM payload off the
+       critical path. -->
 
-  <!-- Preload the JSON data files so they fetch in parallel with the JS bundle
-       instead of waiting for experience.ts / community.ts to call fetch(). The
-       `?v=__BUILD_HASH__` placeholder is replaced at build time by the Vite
-       `inject-build-hash` plugin (vite.config.ts) — same hash as the JS code's
-       fetch URLs so the preloaded resource is reused (no double-fetch). -->
-  <link rel="preload" href="/data/experience.json?v=__BUILD_HASH__" as="fetch" type="application/json" crossorigin />
-  <link rel="preload" href="/data/community.json?v=__BUILD_HASH__" as="fetch" type="application/json" crossorigin />
+  <!-- Body content is baked in at build time by vite from the agent's
+       public/data/*.json — no runtime fetch. -->
 
-  <!-- Fonts: Instrument Serif (editorial display) · Geist (body) · Geist Mono (technical) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Warm the TCP/TLS handshake to the chat backend before tier-2 fires. -->
+  <link rel="preconnect" href="{{agentEndpoint}}" crossorigin />
+  <link rel="dns-prefetch" href="{{agentEndpoint}}" />
   <link
     href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet" />
@@ -163,12 +132,9 @@
   <link href="./styles.css" rel="stylesheet" />
   <link href="./chat.css" rel="stylesheet" />
 
-  <!-- Agent origin for the chat widget; remove this meta to disable. -->
-  <meta name="agent-url" content="http://localhost:8787" />
-
-  <!-- Favicon -->
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23171413'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%232D5F4E'%3ET%3C/text%3E%3C/svg%3E" />
+  <!-- Real /favicon.svg file, not a data-URI — agent-card.json's iconUrl
+       reference must resolve on GH Pages. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 
 <body class="min-h-screen relative">
@@ -233,24 +199,20 @@
         <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-center">
           <!-- Left: narrative -->
           <div class="md:col-span-7 space-y-6 md:space-y-8">
-            <p class="eyebrow reveal">Technical Lead · Architect · Coimbatore, IN</p>
+            <p class="eyebrow reveal">{{profile.role}} · {{profile.locationCity}}</p>
 
             <h1
               class="reveal delay-1 font-display font-normal text-ink text-[clamp(2.75rem,7.4vw,5.5rem)] tracking-[-0.02em] leading-[0.96] [text-wrap:balance] [word-break:keep-all] [&_em]:italic [&_em]:font-normal [&_em]:tracking-[-0.015em] [&_em]:text-accent">
-              Thirumoorthy<br class="md:hidden" /> <em>Ponnusamy.</em>
+              {{profile.firstName}}<br class="md:hidden" /> <em>{{profile.lastName}}.</em>
             </h1>
 
             <p
               class="reveal delay-2 max-w-3xl font-display font-normal text-ink text-[clamp(1.375rem,2.6vw,2rem)] tracking-[-0.012em] leading-[1.3] [text-wrap:pretty] [&_em]:italic [&_em]:text-accent">
-              <em>Old-school dev.</em> I know the fundamentals
-              <span class="text-accent mx-1">&mdash;</span> and wield modern AI tools with knowledge.
+              {{profile.hero.lead}}
             </p>
 
             <p class="text-ink/85 text-[1.0625rem] md:text-[1.1875rem] leading-[1.65] max-w-[60ch] reveal delay-3 [text-wrap:pretty]">
-              I architect and ship <span class="serif-italic text-ink">resilient</span> web platforms
-              <span class="mx-1">&mdash;</span> Angular, Node.js, AWS. 8+ years <span class="serif-italic text-ink">so far</span>
-              across SaaS, IoT and automotive <span class="mx-1">&mdash;</span> the domain doesn't gate the work. Agents and modern
-              tools are leverage, not substitutes for the fundamentals.
+              {{profile.hero.body}}
             </p>
 
             <!-- Action row — status + CTAs -->
@@ -266,16 +228,16 @@
                 class="inline-flex items-center gap-2.5 px-6 py-3.5 border border-ink bg-transparent text-ink font-medium text-[0.95rem] transition-all duration-200 hover:bg-ink hover:text-paper focus-visible:[outline-offset:4px]">See the work</a>
               <span class="mono text-xs uppercase tracking-widest text-muted inline-flex items-center gap-2">
                 <span class="dot-live" aria-hidden="true"></span>
-                Open to senior roles &amp; consulting
+                {{profile.hero.statusLabel}}
               </span>
             </div>
           </div>
 
-          <!-- Right: compact "Agent Orbit" preview + expand-to-modal -->
+          <!-- Agent Orbit -->
           <div class="hidden md:block md:col-span-5 reveal delay-3">
             <figure class="ai-diagram">
               <svg viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" role="img"
-                aria-label="Agent at the center with orbiting services: tools, memory, cache, RAG, guardrails, LLM"
+                aria-label="AI agent architecture diagram: a central orchestrator surrounded by orbiting services — memory, cache, tools, RAG retrieval, guardrails, human-in-the-loop review, coding-agent harness, LLM framework, fine-tuning loop, gateway, observability, voice and visual inputs, and storage."
                 class="w-full h-auto">
                 <defs>
                   <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
@@ -285,16 +247,13 @@
                   </radialGradient>
                 </defs>
 
-                <!-- Soft center glow -->
                 <circle cx="180" cy="180" r="140" fill="url(#orbitGlow)" />
 
-                <!-- Orbits (dashed) -->
                 <circle cx="180" cy="180" r="78" fill="none" stroke="#DCD6C8" stroke-width="1"
                   stroke-dasharray="1 3" />
                 <circle cx="180" cy="180" r="140" fill="none" stroke="#DCD6C8" stroke-width="1"
                   stroke-dasharray="1 4" />
 
-                <!-- Rotating pulse dots — inner orbit -->
                 <g>
                   <circle r="2.4" fill="#2D5F4E">
                     <animateMotion dur="8s" repeatCount="indefinite"
@@ -305,7 +264,6 @@
                       path="M 258 180 A 78 78 0 1 1 258 179.99 Z" />
                   </circle>
                 </g>
-                <!-- Rotating pulse dots — outer orbit -->
                 <g>
                   <circle r="2" fill="#9AC7B6">
                     <animateMotion dur="14s" repeatCount="indefinite"
@@ -317,9 +275,7 @@
                   </circle>
                 </g>
 
-                <!-- Central AGENT hub -->
                 <circle cx="180" cy="180" r="44" fill="#141619" stroke="#2D5F4E" stroke-width="1.5" />
-                <!-- Pulsing outer ring -->
                 <circle cx="180" cy="180" r="44" fill="none" stroke="#2D5F4E" stroke-width="1" opacity="0.45">
                   <animate attributeName="r" values="44;52;44" dur="3.2s" repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.45;0;0.45" dur="3.2s" repeatCount="indefinite" />
@@ -329,8 +285,7 @@
                 <text x="180" y="192" text-anchor="middle" font-family="'Instrument Serif', serif"
                   font-style="italic" font-size="20" fill="#9AC7B6">agent</text>
 
-                <!-- INNER ORBIT satellites (3 nodes) — connect directly to agent -->
-                <!-- MEMORY (top-right, 60°) -->
+                <!-- Inner orbit -->
                 <g>
                   <circle cx="247" cy="140" r="4" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="255" y="137" font-family="'Geist Mono', ui-monospace, monospace" font-size="8"
@@ -338,7 +293,6 @@
                   <text x="255" y="148" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">short · long</text>
                 </g>
-                <!-- CACHE (right, 0°) -->
                 <g>
                   <circle cx="258" cy="180" r="4" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="266" y="177" font-family="'Geist Mono', ui-monospace, monospace" font-size="8"
@@ -346,7 +300,6 @@
                   <text x="266" y="188" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">semantic</text>
                 </g>
-                <!-- TOOLS / MCP (bottom-right, -60°) -->
                 <g>
                   <circle cx="247" cy="220" r="4" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="255" y="217" font-family="'Geist Mono', ui-monospace, monospace" font-size="8"
@@ -355,8 +308,7 @@
                     fill="#62666E">mcp · fn · cli</text>
                 </g>
 
-                <!-- OUTER ORBIT satellites (3 nodes) -->
-                <!-- GUARDRAILS (top, 90°) -->
+                <!-- Outer orbit -->
                 <g>
                   <circle cx="180" cy="40" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="180" y="22" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
@@ -364,7 +316,6 @@
                   <text x="180" y="32" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">policy · PII</text>
                 </g>
-                <!-- HUMAN-IN-THE-LOOP (top-left, 120°) — review/escalation gate -->
                 <g>
                   <circle cx="110" cy="59" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="110" y="40" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
@@ -372,7 +323,6 @@
                   <text x="110" y="50" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">human · review</text>
                 </g>
-                <!-- RAG / INDEX (bottom-left, -150°) -->
                 <g>
                   <circle cx="59" cy="250" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="59" y="275" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
@@ -380,21 +330,26 @@
                   <text x="59" y="285" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">vector + hybrid</text>
                 </g>
-                <!-- LLM / ADAPTER (bottom-right, -30°) -->
                 <g>
                   <circle cx="301" cy="250" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
-                  <text x="310" y="275" font-family="'Geist Mono', ui-monospace, monospace" font-size="8.5"
-                    letter-spacing="1.8" fill="#141619">LLM · ADAPTER</text>
-                  <text x="310" y="285" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
+                  <text x="310" y="265" font-family="'Geist Mono', ui-monospace, monospace" font-size="8.5"
+                    letter-spacing="1.8" fill="#141619">LLM FRAMEWORK</text>
+                  <text x="310" y="275" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">adk · genkit</text>
                 </g>
-                <!-- FINE-TUNING (bottom-right, -60°) — slow loop: traces → train → adapter -->
+                <!-- HARNESS — coding-agent harnesses driving the framework -->
+                <g>
+                  <circle cx="280" cy="80" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
+                  <text x="290" y="60" font-family="'Geist Mono', ui-monospace, monospace" font-size="8.5"
+                    letter-spacing="1.8" fill="#141619">HARNESS</text>
+                  <text x="290" y="70" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
+                    fill="#62666E">claude · cursor · codex</text>
+                </g>
                 <g>
                   <circle cx="250" cy="301" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="250" y="322" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="8.5" letter-spacing="1.8" fill="#141619">FINE-TUNING</text>
                 </g>
-                <!-- GATEWAY (top-left, 150°) -->
                 <g>
                   <circle cx="59" cy="110" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="50" y="90" text-anchor="end" font-family="'Geist Mono', ui-monospace, monospace"
@@ -402,7 +357,6 @@
                   <text x="50" y="100" text-anchor="end" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">auth · rate</text>
                 </g>
-                <!-- OBSERVABILITY (top-right, 30°) -->
                 <g>
                   <circle cx="301" cy="110" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="310" y="90" font-family="'Geist Mono', ui-monospace, monospace" font-size="8.5"
@@ -410,7 +364,6 @@
                   <text x="310" y="100" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">traces · evals</text>
                 </g>
-                <!-- VOICE (left, 180°) — multimodal input -->
                 <g>
                   <circle cx="40" cy="180" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="40" y="162" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
@@ -418,7 +371,6 @@
                   <text x="40" y="200" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
                     font-size="6.5" fill="#62666E">speech i/o</text>
                 </g>
-                <!-- VISUAL (right, 0°) — multimodal input -->
                 <g>
                   <circle cx="320" cy="180" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="330" y="177" font-family="'Geist Mono', ui-monospace, monospace" font-size="8.5"
@@ -426,7 +378,6 @@
                   <text x="330" y="188" font-family="'Geist Mono', ui-monospace, monospace" font-size="6.5"
                     fill="#62666E">vision · ocr</text>
                 </g>
-                <!-- STORAGE (bottom, -90°) -->
                 <g>
                   <circle cx="180" cy="320" r="5" fill="#F4F1EA" stroke="#2D5F4E" stroke-width="1.2" />
                   <text x="180" y="345" text-anchor="middle" font-family="'Geist Mono', ui-monospace, monospace"
@@ -459,19 +410,19 @@
         <div class="mt-14 md:mt-20 pt-8 rule grid grid-cols-2 md:grid-cols-4 gap-6 reveal delay-3">
           <div>
             <p class="eyebrow mb-2">Current</p>
-            <p class="text-sm font-medium">Technical Lead<br /><a href="https://trustrace.com" target="_blank" rel="noopener noreferrer" class="text-muted underline decoration-rule decoration-1 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors">TrusTrace</a></p>
+            <p class="text-sm font-medium">{{profile.currentRole.title}}<br /><a href="{{profile.currentRole.employer.url}}" target="_blank" rel="noopener noreferrer" class="text-muted underline decoration-rule decoration-1 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors">{{profile.currentRole.employer.name}}</a></p>
           </div>
           <div>
             <p class="eyebrow mb-2">Experience</p>
-            <p class="text-sm font-medium">8+ Years<br /><span class="text-muted">Since 2017</span></p>
+            <p class="text-sm font-medium">{{profile.currentRole.yearsLabel}}<br /><span class="text-muted">Since {{profile.currentRole.since}}</span></p>
           </div>
           <div>
             <p class="eyebrow mb-2">Focus</p>
-            <p class="text-sm font-medium">Full-Stack Systems<br /><span class="text-muted">Web · APIs · Agents · Cloud · Security</span></p>
+            <p class="text-sm font-medium">{{profile.focus.current}}<br /><span class="text-muted">{{profile.focusAreas}}</span></p>
           </div>
           <div>
             <p class="eyebrow mb-2">Based in</p>
-            <p class="text-sm font-medium">Coimbatore, IN<br /><span class="text-muted">Open to remote</span></p>
+            <p class="text-sm font-medium">{{profile.locationCity}}, {{profile.locationCountry}}<br /><span class="text-muted">Open to remote</span></p>
           </div>
         </div>
 
@@ -483,15 +434,16 @@
       <div class="mx-auto max-w-6xl">
         <div class="grid md:grid-cols-12 gap-8 md:gap-16 mb-12 md:mb-16">
           <div class="md:col-span-4">
-            <p class="section-label reveal">~/ Live Session</p>
+            <p class="section-label reveal">~/ Sample Session</p>
             <h2 class="section-heading mt-3 reveal delay-1">
               How I work <em class="serif-italic text-accent">with agents</em>.
             </h2>
           </div>
           <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2">
-            <span class="serif-italic text-ink">Vibe-coding is fine for prototypes.</span> Production patches run
-            through the flow below &mdash; a terminal-native dialogue, not blind generation. The agent has rails,
-            the rails have auditors, the auditors have owners.
+            <em class="italic font-medium text-ink">Vibe-coding is fine for prototypes.</em> The flow below is one
+            shape it can take &mdash; the specific stages depend on use case and product. The non-negotiables stay
+            constant: <em class="italic font-medium text-ink">AI governance</em>, stricter monitoring, verification,
+            and review consistency before any patch lands.
           </p>
         </div>
 
@@ -568,7 +520,7 @@
               <!-- Turn 3 — AGENTS.md interactive authoring -->
               <div class="tui-line" data-line data-pause="160" data-speed="8">
                 <span class="tui-g">&#9679;</span>
-                <span class="tui-text">Good. Now let's write <span class="tui-accent">AGENTS.md</span> together.</span>
+                <span class="tui-text">Good. Now let's bootstrap <span class="tui-accent">AGENTS.md</span> interactively.</span>
               </div>
               <div class="tui-line tui-sub" data-line data-pause="240" data-speed="6">
                 <span class="tui-dim">&#x2514;</span>
@@ -660,7 +612,7 @@
               </div>
               <div class="tui-line tui-sub" data-line data-pause="90" data-speed="6">
                 <span class="tui-dim">&#x2514;</span>
-                <span class="tui-text"><span class="tui-add">+142</span> &middot; six audit stages wired</span>
+                <span class="tui-text"><span class="tui-add">+142</span> &middot; seven audit stages wired</span>
               </div>
               <div class="tui-line tui-sub" data-line data-pause="90" data-speed="6">
                 <span class="tui-dim">&#x2514;</span>
@@ -731,29 +683,13 @@
               <img src="/portrait.svg" alt="" width="140" height="140" class="w-full h-full block" />
             </figure>
             <!-- numbering starts at About; Workflow is an unnumbered set piece -->
-            <h2 class="section-heading mt-6 reveal delay-2">
-              Engineer who thinks like a <em class="serif-italic text-accent">product owner</em>.
-            </h2>
+            <h2 class="section-heading mt-6 reveal delay-2">{{profile.about.headline}}</h2>
           </div>
 
           <div class="md:col-span-7 md:col-start-6 text-lg leading-relaxed text-ink-soft reveal delay-2 space-y-5">
-            <p>
-              Technical Lead at TrusTrace, owning frontend architecture across the supply-chain traceability
-              platform — fashion, food, and circular-fashion verticals. Took the codebase through full
-              <span class="serif-italic text-ink">modularisation</span> into a micro-frontend topology so squads
-              ship independently, drove a <span class="serif-italic text-ink">cross-product design system</span>
-              that outlasts refactors, and bootstrapped most of the platform's newer modules — DPP, supplier
-              and supply-chain management, audit, Power BI analytics — handing each off to teams while staying on
-              architecture calls. Currently building out
-              <span class="serif-italic text-ink">AI enablement</span> across the org: RAG-grounded agents,
-              automated human-in-the-loop PR reviews, <span class="serif-italic text-ink">abstraction layers</span>
-              that keep agent behaviour consistent across tools, and the eval surface to measure it.
-            </p>
-            <p>
-              The product-owner instinct: I worry less about the elegance of an abstraction than whether the team
-              using it ships faster six months from now. <span class="serif-italic text-ink">Same for AI
-              tooling</span> — leverage only counts if it survives a quarter of real production use.
-            </p>
+            <p>{{profile.about.paragraphs.0}}</p>
+            <p>{{profile.about.paragraphs.1}}</p>
+            <p>{{profile.about.paragraphs.2}}</p>
           </div>
         </div>
       </div>
@@ -772,163 +708,7 @@
           <p class="hidden md:block mono text-xs uppercase tracking-widest text-muted reveal delay-2">Highlights &middot; metric-led</p>
         </div>
 
-        <div class="reveal delay-2">
-          <article class="work-item">
-            <div class="work-index">01</div>
-            <div>
-              <h3>Sustainability Score Engine</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                10 parameters &middot; 26,000+ products &middot; real-time scoring.
-              </p>
-              <p>
-                Built the data-collection + score-calculation platform for a major Swedish food retailer's
-                traceability platform. Brand-facing UI for suppliers to upload sustainability data; consumer-facing
-                API consumed by the retailer's app where shoppers
-                <span class="serif-italic text-ink">scan EAN barcodes in-store</span> to see a 10-parameter
-                spider chart (biodiversity, climate, …). Year-long build with multi-module self-service surfaces;
-                ran for a year post-launch with zero dev involvement.
-              </p>
-              <div>
-                <span class="tag-chip">Angular</span>
-                <span class="tag-chip">Java &middot; Spring Boot</span>
-                <span class="tag-chip">Node.js</span>
-                <span class="tag-chip">AWS</span>
-                <span class="tag-chip">Score Engine</span>
-              </div>
-            </div>
-            <div class="work-meta">SaaS<br />Sustainability &middot; 2020&mdash;21</div>
-          </article>
-
-          <article class="work-item">
-            <div class="work-index">02</div>
-            <div>
-              <h3>Codebase &rarr; Micro-frontend Topology</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                Squads ship independently. Releases decoupled.
-              </p>
-              <p>
-                The platform was a monolithic Angular codebase with a shared release cadence — one team's bug
-                blocked everyone's release. Architected full
-                <span class="serif-italic text-ink">modularisation</span> (libs + modules pattern), then converted
-                into a micro-frontend topology with the surrounding tooling so squads ship without coordinating
-                and onboarding is AGENTS.md-driven.
-              </p>
-              <div>
-                <span class="tag-chip">Angular</span>
-                <span class="tag-chip">Native Federation</span>
-                <span class="tag-chip">Micro Frontends</span>
-                <span class="tag-chip">Monorepo</span>
-                <span class="tag-chip">Tooling &middot; DX</span>
-              </div>
-            </div>
-            <div class="work-meta">Architecture<br />Platform &middot; 2022&mdash;</div>
-          </article>
-
-          <article class="work-item">
-            <div class="work-index">03</div>
-            <div>
-              <h3>Cross-Product Design System</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                One visual language across designers and engineers.
-              </p>
-              <p>
-                Platform UI had drifted across products — same patterns, different implementations, designer ↔
-                engineer gaps surfacing in every review. Partnered with design to extract the shared language —
-                <span class="serif-italic text-ink">tokens, reusable components, a Storybook + docs portal</span>
-                as the multi-product source of truth, plus AI-integration affordances so agent-driven changes stay
-                on-system. Outlasts refactors.
-              </p>
-              <div>
-                <span class="tag-chip">Design System</span>
-                <span class="tag-chip">Storybook</span>
-                <span class="tag-chip">Tokens</span>
-                <span class="tag-chip">Docs Portal</span>
-                <span class="tag-chip">Cross-Functional</span>
-              </div>
-            </div>
-            <div class="work-meta">UI &middot; Platform<br />2024&mdash;</div>
-          </article>
-
-          <article class="work-item">
-            <div class="work-index">04</div>
-            <div>
-              <h3>AI Enablement Layer</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                Tool-agnostic agents — with the eval surface to prove it.
-              </p>
-              <p>
-                Engineering teams adopting AI coding tools (Cursor, Copilot, Claude Code, Codex) hit inconsistent
-                agent behaviour and no way to measure it. Built the
-                <span class="serif-italic text-ink">abstraction layer</span> that normalises behaviour across
-                tools, RAG-grounded agents over the codebase + architecture docs, automated human-in-the-loop PR
-                reviews, and the <span class="serif-italic text-ink">eval surface</span> to track quality over
-                time. Tool-agnostic by design.
-              </p>
-              <div>
-                <span class="tag-chip">RAG</span>
-                <span class="tag-chip">Agents</span>
-                <span class="tag-chip">HITL</span>
-                <span class="tag-chip">Evals</span>
-                <span class="tag-chip">MCP &middot; AGENTS.md</span>
-              </div>
-            </div>
-            <div class="work-meta">AI &middot; DevX<br />2026&mdash;</div>
-          </article>
-
-          <article class="work-item">
-            <div class="work-index">05</div>
-            <div>
-              <h3>Playwright Regression Framework</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                Manual regression: days &rarr; hours.
-              </p>
-              <p>
-                The regression suite was eating multiple days every release. Architected and seeded the team's
-                Playwright framework — page-object pattern, scaffolded for QAs to extend without engineering
-                handholding. Automated <span class="serif-italic text-ink">one module to 100% coverage</span>
-                and handed it off to the QA team, with <span class="serif-italic text-ink">multi-actor parallel scenarios</span>
-                (supplier &middot; brand &middot; auditor) running on the same flow. Built on web-first assertions
-                and stable locators — no <code class="font-mono text-[0.85em] bg-rule/40 px-1 rounded">waitForTimeout</code>
-                antipattern, no flaky tests. As an
-                <span class="serif-italic text-ink">enabler</span> the framework now spreads across modules,
-                team-owned.
-              </p>
-              <div>
-                <span class="tag-chip">Playwright</span>
-                <span class="tag-chip">TypeScript</span>
-                <span class="tag-chip">Page Object Model</span>
-                <span class="tag-chip">Multi-Actor &middot; Parallel</span>
-                <span class="tag-chip">QA Enablement</span>
-              </div>
-            </div>
-            <div class="work-meta">Quality &middot; DX<br />2022&mdash;</div>
-          </article>
-
-          <article class="work-item">
-            <div class="work-index">06</div>
-            <div>
-              <h3>Infor CPQ Migration &middot; Automation Layer</h3>
-              <p class="font-display italic text-accent text-lg md:text-xl !mt-1 !mb-3 [text-wrap:balance]">
-                5&times; throughput. ~20 &rarr; 100+ projects/week.
-              </p>
-              <p>
-                Joined an in-flight migration project into <a href="https://www.infor.com/solutions/service-sales/configure-price-quote" target="_blank" rel="noopener noreferrer" class="underline decoration-rule decoration-1 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors">Infor CPQ</a> (Infor's
-                Configure-Price-Quote product) — manual conversion was capacity-bound at ~20 projects per week. Built a
-                Python + pandas automation layer on top that handled the conversion
-                <span class="serif-italic text-ink">without quality loss</span>. Throughput scaled to 100+
-                projects/week — a 5× lift sustained for the rest of the engagement, freeing delivery for
-                higher-leverage work.
-              </p>
-              <div>
-                <span class="tag-chip">Python</span>
-                <span class="tag-chip">pandas</span>
-                <span class="tag-chip">Data Migration</span>
-                <span class="tag-chip">Automation</span>
-              </div>
-            </div>
-            <div class="work-meta">Data<br />Altran &middot; 2018</div>
-          </article>
-        </div>
+        <div class="reveal delay-2">{{html.work}}</div>
       </div>
     </section>
 
@@ -942,14 +722,10 @@
               The <em class="serif-italic">journey</em>.
             </h2>
           </div>
-          <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2" data-experience-intro>
-            Loading…
-          </p>
+          <p class="md:col-span-7 md:col-start-6 text-ink-soft leading-relaxed reveal delay-2">{{html.experienceIntro}}</p>
         </div>
 
-        <div class="reveal delay-2" data-experience-rows>
-          <p class="text-muted">Loading…</p>
-        </div>
+        <div class="reveal delay-2">{{html.experience}}</div>
       </div>
     </section>
 
@@ -969,10 +745,7 @@
           </p>
         </div>
 
-        <div class="reveal delay-2 space-y-12" data-community-rows>
-          <!-- Rows hydrated at runtime from /data/community.json by community.ts -->
-          <p class="text-muted">Loading…</p>
-        </div>
+        <div class="reveal delay-2 space-y-12">{{html.community}}</div>
       </div>
     </section>
 
@@ -987,12 +760,11 @@
         <div class="grid md:grid-cols-12 gap-8 md:gap-16 mt-16 items-end">
           <div class="md:col-span-7 reveal delay-2">
             <p class="text-lg leading-relaxed max-w-xl text-muted-soft">
-              I'm open to conversations about senior engineering roles, architecture consulting, and interesting
-              problems in Angular, Node.js, AWS or AI tooling. The fastest way to reach me is LinkedIn.
+              I'm open to conversations about senior engineering roles, architecture consulting, and meaningful
+              problems in software and AI &mdash; solutioning, design, and delivery, end to end. The fastest way to reach me is LinkedIn.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a href="https://www.linkedin.com/in/moorthyptm/" target="_blank" rel="noopener noreferrer"
-                data-scratch-reveal
                 class="inline-flex items-center gap-2 bg-paper text-ink px-6 py-3.5 font-medium hover:bg-accent hover:text-paper transition-colors">
                 Connect on LinkedIn
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -1039,12 +811,12 @@
   <footer class="border-t border-rule bg-paper">
     <div class="mx-auto max-w-6xl px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="mono text-xs text-muted tracking-wider">
-        &copy; <span id="footer-year">2026</span> Thirumoorthy Ponnusamy — Coimbatore, IN
+        &copy; <span id="footer-year">2026</span> {{profile.name}} — {{profile.locationCity}}, {{profile.locationCountry}}
       </p>
       <div class="flex items-center gap-6 mono text-xs uppercase tracking-widest text-muted">
-        <a href="https://www.linkedin.com/in/moorthyptm/" target="_blank" rel="noopener noreferrer"
+        <a href="{{profile.contact.linkedin}}" target="_blank" rel="noopener noreferrer"
           class="hover:text-ink transition-colors">LinkedIn</a>
-        <a href="https://github.com/moorthyptm" target="_blank" rel="noopener noreferrer"
+        <a href="{{profile.contact.github}}" target="_blank" rel="noopener noreferrer"
           class="hover:text-ink transition-colors">GitHub</a>
         <a href="#home" class="hover:text-ink transition-colors">Top ↑</a>
       </div>

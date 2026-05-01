@@ -62,7 +62,10 @@
           });
         }
       });
-    }, { threshold: 0.4 });
+    // rootMargin shrinks the root to a horizontal line at viewport centre.
+    // A section is "active" when its content crosses that line — works for
+    // sections of any height (threshold 0.4 fails on sections >2.5x viewport).
+    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
     sections.forEach(s => navObs.observe(s));
   }
 

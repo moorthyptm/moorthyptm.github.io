@@ -1,19 +1,17 @@
-/* Portfolio chat widget. Scoped under .agent-chat-widget so it never leaks
-   styles into the rest of the site. Reuses the Archive palette via CSS
-   custom properties (with sane fallbacks). */
+/* Tokens come from styles.css @theme — don't redefine palette/typography here. */
 
 .agent-chat-widget {
-  --chat-paper: var(--color-paper, #f4f1ea);
-  --chat-ink: var(--color-ink, #141619);
-  --chat-muted: var(--color-muted, #62666e);
-  --chat-accent: var(--color-accent, #2d5f4e);
+  --chat-paper: var(--color-paper);
+  --chat-ink: var(--color-ink);
+  --chat-muted: var(--color-muted);
+  --chat-accent: var(--color-accent);
   --chat-elevation: 0 20px 40px -12px rgba(20, 22, 25, 0.2);
 
   position: fixed;
   right: 1.25rem;
   bottom: 1.25rem;
   z-index: 9999;
-  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
 }
 
 .agent-chat-bubble {
@@ -45,8 +43,24 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 999px;
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+.agent-chat-bubble-dot--checking {
+  background: #f5b942;
+  box-shadow: 0 0 0 3px rgba(245, 185, 66, 0.25);
+  animation: agent-chat-dot-pulse 1.2s ease-in-out infinite;
+}
+.agent-chat-bubble-dot--online {
   background: #7ed69a;
   box-shadow: 0 0 0 3px rgba(126, 214, 154, 0.25);
+}
+.agent-chat-bubble-dot--offline {
+  background: #c2c5cb;
+  box-shadow: 0 0 0 3px rgba(194, 197, 203, 0.25);
+}
+@keyframes agent-chat-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .agent-chat-drawer {
@@ -72,16 +86,33 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(20, 22, 25, 0.08);
 }
+.agent-chat-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
 .agent-chat-title {
-  font-family: "Instrument Serif", Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.1rem;
   line-height: 1.2;
+}
+.agent-chat-beta {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  padding: 0.12rem 0.4rem;
+  border: 1px solid var(--chat-accent);
+  color: var(--chat-accent);
+  border-radius: 999px;
+  text-transform: uppercase;
+  line-height: 1;
 }
 .agent-chat-sub {
   font-size: 0.72rem;
   color: var(--chat-muted);
   margin-top: 0.15rem;
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--font-mono);
 }
 .agent-chat-close {
   background: none;
@@ -121,7 +152,7 @@
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--font-mono);
   opacity: 0.6;
   font-weight: 500;
 }
@@ -146,7 +177,6 @@
 .agent-chat-msg--assistant .agent-chat-msg-actor {
   color: var(--chat-muted);
 }
-/* Rendered markdown inside assistant bubbles */
 .agent-chat-msg--assistant strong {
   font-weight: 600;
 }
@@ -154,7 +184,7 @@
   font-style: italic;
 }
 .agent-chat-msg--assistant code {
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.85em;
   background: rgba(20, 22, 25, 0.08);
   padding: 0.08em 0.35em;
@@ -252,4 +282,43 @@
   .agent-chat-drawer {
     width: calc(100vw - 1.5rem);
   }
+}
+
+/* Welcome chips — one-shot; disabled after first pick. */
+.agent-chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+.agent-chat-chip {
+  appearance: none;
+  background: var(--agent-chip-bg, rgba(255, 255, 255, 0.06));
+  color: var(--agent-chip-fg, currentColor);
+  border: 1px solid var(--agent-chip-border, rgba(255, 255, 255, 0.18));
+  border-radius: 999px;
+  padding: 0.32rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 160ms, border-color 160ms, transform 100ms;
+}
+.agent-chat-chip:hover {
+  background: var(--agent-chip-hover-bg, rgba(255, 255, 255, 0.12));
+  border-color: var(--agent-chip-hover-border, rgba(255, 255, 255, 0.32));
+}
+.agent-chat-chip:focus-visible {
+  outline: 2px solid var(--agent-accent, #9ac7b6);
+  outline-offset: 2px;
+}
+.agent-chat-chip:active {
+  transform: translateY(1px);
+}
+.agent-chat-chip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.agent-chat-welcome--used .agent-chat-chips {
+  opacity: 0.45;
 }
