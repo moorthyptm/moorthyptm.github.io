@@ -140,11 +140,20 @@ function substitute(input: string, ctx: Record<string, unknown>): string {
 }
 
 export default defineConfig(async ({ command }) => {
+  // CI sets PORTFOLIO_AGENT_ENDPOINT from a repo variable; a manual `vite
+  // build` without it has historically baked `localhost:8787` into the
+  // shipped HTML, breaking chat in prod. Fail loud instead of silently
+  // poisoning the dist.
+  if (command === "build" && !process.env.PORTFOLIO_AGENT_ENDPOINT) {
+    throw new Error(
+      "[portfolio build] PORTFOLIO_AGENT_ENDPOINT is required for `vite build`. " +
+        "Set it (e.g. https://agent.moorthyptm.com) or run `vite` (dev) instead. " +
+        "Building without it ships a dist that points at localhost:8787.",
+    );
+  }
   const agentEndpoint =
     process.env.PORTFOLIO_AGENT_ENDPOINT ??
-    (command === "serve"
-      ? "http://localhost:8787"
-      : "https://agent.moorthyptm.com");
+    (command === "serve" ? "http://localhost:8787" : "https://agent.moorthyptm.com");
 
   const [profile, workData, experienceData, communityData] = await Promise.all([
     loadDataFile("profile.json", agentEndpoint, ProfileSchema),
