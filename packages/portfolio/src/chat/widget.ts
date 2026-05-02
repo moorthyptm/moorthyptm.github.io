@@ -20,7 +20,6 @@ const FALLBACK = {
   sendLabel: "Send",
   actorUser: "You",
   actorAssistant: "Agent",
-  freeFormPrompt: "Tell me your role and what I can help with.",
   offlineMessage: "Chat is currently unavailable.",
   errorMessage: "Connection error. Please try again.",
 } as const;
@@ -141,8 +140,9 @@ export function initChat(agentUrl: string): void {
     return el;
   };
 
-  // Single bubble: actor + streamed greeting paragraph + chip row inline.
-  // Chips post `role:<x>` so the system prompt's onboarding branches.
+  // Single bubble: actor + streamed greeting paragraph. The agent's system
+  // prompt drives onboarding via prose — no chip row, no `role:<x>` shortcuts.
+  // The user reads the greeting and types their answer naturally.
   const renderWelcome = (payload: WelcomePayload): void => {
     const wrap = document.createElement("div");
     wrap.className =
@@ -161,40 +161,18 @@ export function initChat(agentUrl: string): void {
     greetingP.className = "agent-chat-greet";
     body.appendChild(greetingP);
 
-    // Streamer writes into the greeting paragraph specifically, leaving the
-    // chips below untouched.
     msgState.set(wrap, { plainText: "", body: greetingP });
-
-    const chipRow = document.createElement("div");
-    chipRow.className = "agent-chat-chips";
-    for (const c of payload.chips) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "agent-chat-chip";
-      btn.textContent = c.label;
-      if (c.description) btn.title = c.description;
-      btn.addEventListener("click", () => {
-        wrap.classList.add("agent-chat-welcome--used");
-        chipRow.querySelectorAll<HTMLButtonElement>(".agent-chat-chip").forEach((b) => {
-          b.disabled = true;
-        });
-        if (c.role === "other") {
-          appendMessage("assistant", payload.freeFormPrompt);
-          input.focus();
-          return;
-        }
-        void sendMessage(`role:${c.role}`);
-      });
-      chipRow.appendChild(btn);
-    }
-    body.appendChild(chipRow);
 
     messages.appendChild(wrap);
     messages.scrollTop = messages.scrollHeight;
 
     const streamer = makeStreamer(wrap, msgState, messages);
-    void streamGreet(agentUrl, sessionId, streamer, "Hi — pick a role below or ask me anything.")
-      .finally(() => wrap.classList.remove("agent-chat-msg--streaming"));
+    void streamGreet(
+      agentUrl,
+      sessionId,
+      streamer,
+      "Hi — ask me anything about Thirumoorthy's work or how to get in touch.",
+    ).finally(() => wrap.classList.remove("agent-chat-msg--streaming"));
   };
 
   const sendMessage = async (text: string): Promise<void> => {
