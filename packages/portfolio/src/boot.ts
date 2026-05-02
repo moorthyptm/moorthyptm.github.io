@@ -3,8 +3,8 @@
 
 // Tier 1
 queueMicrotask(() => {
-  void import("./script");
-  void import("./clock");
+  void import("./home/index.js");
+  void import("./clock.js");
 });
 
 // Tier 2
@@ -13,8 +13,8 @@ let deferredLoaded = false;
 function loadDeferred(): void {
   if (deferredLoaded) return;
   deferredLoaded = true;
-  void import("./chat");
-  void import("./analytics");
+  void import("./chat/index.js");
+  void import("./analytics.js");
 }
 
 if (typeof (window as unknown as { requestIdleCallback?: unknown }).requestIdleCallback === "function") {
