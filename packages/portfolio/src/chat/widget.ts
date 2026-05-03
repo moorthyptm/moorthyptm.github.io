@@ -39,8 +39,8 @@ const MARKUP = `
     </header>
     <div class="agent-chat-messages" role="log" aria-live="polite" aria-atomic="false"></div>
     <form class="agent-chat-form" autocomplete="off">
-      <input class="agent-chat-input" type="text" id="agent-chat-input"
-             name="message" maxlength="2000" required />
+      <textarea class="agent-chat-input" id="agent-chat-input" rows="1"
+             name="message" maxlength="2000" required></textarea>
       <button class="agent-chat-submit" type="submit">→</button>
     </form>
   </section>
@@ -59,7 +59,7 @@ export function initChat(agentUrl: string): void {
   const closeBtn = root.querySelector<HTMLButtonElement>(".agent-chat-close")!;
   const messages = root.querySelector<HTMLDivElement>(".agent-chat-messages")!;
   const form = root.querySelector<HTMLFormElement>(".agent-chat-form")!;
-  const input = root.querySelector<HTMLInputElement>(".agent-chat-input")!;
+  const input = root.querySelector<HTMLTextAreaElement>(".agent-chat-input")!;
   const submit = root.querySelector<HTMLButtonElement>(".agent-chat-submit")!;
   const bubbleLabel = root.querySelector<HTMLSpanElement>("[data-bubble-label]")!;
   const drawerTitle = root.querySelector<HTMLDivElement>("[data-drawer-title]")!;
@@ -215,6 +215,7 @@ export function initChat(agentUrl: string): void {
   const toggleDrawer = async (open: boolean): Promise<void> => {
     drawer.hidden = !open;
     bubble.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("agent-chat-open", open);
     if (!open) return;
     input.focus();
     if (messages.childElementCount > 0) return;
@@ -239,6 +240,19 @@ export function initChat(agentUrl: string): void {
     }
   });
 
+  const MAX_INPUT_HEIGHT = 150;
+  const autoGrow = (): void => {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, MAX_INPUT_HEIGHT) + "px";
+  };
+  input.addEventListener("input", autoGrow);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
   bubble.addEventListener("click", () => void toggleDrawer(!!drawer.hidden));
   closeBtn.addEventListener("click", () => void toggleDrawer(false));
   form.addEventListener("submit", (e) => {
@@ -246,6 +260,7 @@ export function initChat(agentUrl: string): void {
     const text = input.value.trim();
     if (!text) return;
     input.value = "";
+    input.style.height = "auto";
     void sendMessage(text);
   });
   document.addEventListener("keydown", (e) => {
