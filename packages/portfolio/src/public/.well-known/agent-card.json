@@ -1,0 +1,82 @@
+{
+  "protocolVersion": "1.0",
+  "id": "moorthyptm-portfolio-agent",
+  "name": "{{profile.firstName}} Portfolio Agent",
+  "description": "Answers questions about {{profile.name}} — {{profile.role}}. Grounded in his resume, projects, experience, and public speaking. Useful for recruiters, prospective clients, and collaborators.",
+  "version": "1.0.0",
+  "documentationUrl": "{{profile.contact.portfolio}}/",
+  "iconUrl": "{{profile.contact.portfolio}}/favicon.svg",
+  "provider": {
+    "name": "{{profile.name}}",
+    "url": "{{profile.contact.portfolio}}"
+  },
+  "preferredTransport": "HTTP+JSON",
+  "interfaces": [
+    {
+      "type": "a2a",
+      "transport": "HTTP+JSON",
+      "url": "https://agent.moorthyptm.com"
+    }
+  ],
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": false,
+    "extendedAgentCard": false
+  },
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain"],
+  "skills": [
+    {
+      "id": "profile-qa",
+      "name": "Profile Q&A",
+      "description": "Answer questions about {{profile.firstName}}'s background, skills, and current focus.",
+      "tags": ["profile", "resume", "biography"],
+      "examples": [
+        "How many years of experience does {{profile.firstName}} have?",
+        "What is his current role and team?",
+        "Is he open to consulting engagements?"
+      ]
+    },
+    {
+      "id": "work-experience",
+      "name": "Work & Experience",
+      "description": "Describe past and present engineering work, companies, and scope of responsibilities.",
+      "tags": ["experience", "career", "projects"],
+      "examples": [
+        "What did he build at his current company?",
+        "Summarize his past consulting engagements.",
+        "Walk me through the Playwright QA framework project."
+      ]
+    },
+    {
+      "id": "tech-stack",
+      "name": "Technical Stack & Architecture",
+      "description": "Discuss the technologies, patterns, and architectures {{profile.firstName}} works with.",
+      "tags": ["architecture", "stack", "angular", "node", "aws", "ai"],
+      "examples": [
+        "What's his take on micro-frontend architecture?",
+        "How does he approach AI agent guardrails in production?",
+        "What's in his typical cloud / DevOps stack?"
+      ]
+    },
+    {
+      "id": "contact-intent",
+      "name": "Contact & Availability",
+      "description": "Route contact requests — role inquiries, consulting, speaking engagements — to the right channel.",
+      "tags": ["contact", "availability", "hiring"],
+      "examples": [
+        "Is he open to a senior engineering role?",
+        "How do I get in touch about a consulting project?"
+      ]
+    }
+  ],
+  "securitySchemes": [
+    {
+      "name": "bearer",
+      "type": "http",
+      "scheme": "bearer",
+      "description": "Optional bearer token for rate-limited / trusted callers. Public agent card + message endpoints do not require auth."
+    }
+  ],
+  "security": []
+}

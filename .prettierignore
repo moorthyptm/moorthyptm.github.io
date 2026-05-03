@@ -1,0 +1,10 @@
+node_modules
+**/dist
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+.github
+.claude
+skills-lock.json
+packages/portfolio/dist
+README.md

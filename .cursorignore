@@ -1,0 +1,18 @@
+# Dependencies
+**/node_modules
+.pnpm-store
+
+# Build artefacts
+**/dist
+**/coverage
+**/.vercel
+
+# Secrets
+.env
+.env.*
+
+# Personal docs
+*.pdf
+
+# Logs
+*.log

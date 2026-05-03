@@ -1,0 +1,44 @@
+# Automated dependency updates.
+# - npm: weekly checks for security + minor/patch upgrades on the portfolio package
+# - github-actions: keeps action versions current (security)
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /packages/portfolio
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Asia/Kolkata
+    open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
+    groups:
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "@tailwindcss/*"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+      types:
+        patterns:
+          - "@types/*"
+    labels:
+      - dependencies
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Asia/Kolkata
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: "chore(ci)"

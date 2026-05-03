@@ -1,0 +1,105 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+  # Fired by moorthyptm/portfolio-agent on public/data/*.json changes.
+  repository_dispatch:
+    types: [agent-data-changed]
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  NODE_VERSION: "20"
+
+# Actions are SHA-pinned (not @v4 tags) to defeat tag-mutation supply-chain
+# attacks. Bump SHAs via Dependabot or by `gh api` + manual edit when a new
+# minor is needed; never auto-update.
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout portfolio
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      # pnpm version comes from `packageManager` in package.json
+      # (pnpm@10.33.0). Don't pass `version:` here — pnpm/action-setup
+      # v4.1+ errors on conflict between the two sources.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@7088e561eb65bb68695d245aa206f005ef30921d # v4.1.0
+
+      - name: Set up Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Vite plugin caches agent JSON keyed by ETag. On cache hit + 304 from
+      # the agent, the build skips downloading + re-parses the cached body.
+      - name: Cache agent JSON
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        with:
+          path: packages/portfolio/node_modules/.vite/agent-cache
+          key: agent-data-${{ runner.os }}-${{ hashFiles('packages/portfolio/build-schemas.ts') }}
+
+      - name: Typecheck
+        run: pnpm --filter @moorthyptm/portfolio typecheck
+
+      - name: Build
+        env:
+          # Build-time fetch source for JSON; also baked into the deployed
+          # page as the runtime chat endpoint.
+          PORTFOLIO_AGENT_ENDPOINT: ${{ vars.PORTFOLIO_AGENT_ENDPOINT || 'https://agent.moorthyptm.com' }}
+        run: pnpm --filter @moorthyptm/portfolio build
+
+      - name: Verify artefacts
+        run: |
+          test -f packages/portfolio/dist/index.html
+          test -d packages/portfolio/dist/assets
+          test -f packages/portfolio/dist/robots.txt
+          du -sh packages/portfolio/dist
+
+      - name: Security audit
+        # Static checks: token leaks, off-whitelist URLs, inline handlers,
+        # dangerous elements, required meta tags.
+        run: pnpm --filter @moorthyptm/portfolio run verify:dist
+
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+        with:
+          # Auto-enable Pages on first deploy (needs `pages: write`).
+          # Idempotent — no-op once enabled.
+          enablement: true
+
+      - name: Upload artefact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: ./packages/portfolio/dist
+          retention-days: 1
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

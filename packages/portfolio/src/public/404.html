@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Thirumoorthy Ponnusamy</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'self'; frame-src 'none'; object-src 'none';" />
+  <link rel="canonical" href="https://moorthyptm.github.io/" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #141619;
+      --muted: #62666e;
+      --rule: rgba(0, 0, 0, 0.12);
+      --accent: #2D5F4E;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Geist', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      padding: 32px 24px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'Geist Mono', ui-monospace, monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin: 0 0 28px;
+      color: var(--ink);
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    p {
+      max-width: 56ch;
+      margin: 0 0 24px;
+      color: rgba(20, 22, 25, 0.85);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 200ms;
+      border: 1px solid var(--ink);
+    }
+
+    a.btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    a.btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    a.btn-ghost {
+      color: var(--ink);
+      background: transparent;
+    }
+
+    a.btn-ghost:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .arrow {
+      width: 16px;
+      height: 16px;
+    }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-family: 'Geist Mono', ui-monospace, monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <p class="eyebrow">404 / Page not found</p>
+    <h1>Took a wrong <em>turn</em>.</h1>
+    <p>
+      The page you tried to load isn't here. Probably an old link, a typo, or a deleted draft.
+      Head back to the home page or jump straight to one of the sections below.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">
+        Go home
+        <svg class="arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+          <path stroke-linecap="square" d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+      </a>
+      <a class="btn btn-ghost" href="/#work">See the work</a>
+      <a class="btn btn-ghost" href="/#contact">Contact</a>
+    </div>
+    <footer>
+      <span>&copy; 2026 Thirumoorthy Ponnusamy &middot; Coimbatore, IN</span>
+      <a href="/" style="color: var(--muted); text-decoration: none;">moorthyptm.github.io ↗</a>
+    </footer>
+  </main>
+</body>
+
+</html>
