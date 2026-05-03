@@ -26,7 +26,7 @@ const MARKUP = `
     <span data-bubble-label></span>
   </button>
   <span data-bubble-status-label class="sr-only" aria-live="polite">Checking agent status</span>
-  <section class="agent-chat-drawer" role="dialog" hidden>
+  <section class="agent-chat-drawer" role="dialog" aria-modal="true" aria-label="Chat" hidden>
     <header class="agent-chat-header">
       <div>
         <div class="agent-chat-title-row">
@@ -35,13 +35,13 @@ const MARKUP = `
         </div>
         <div class="agent-chat-sub" data-drawer-sub></div>
       </div>
-      <button class="agent-chat-close" type="button">×</button>
+      <button class="agent-chat-close" type="button" aria-label="Close">×</button>
     </header>
     <div class="agent-chat-messages" role="log" aria-live="polite" aria-atomic="false"></div>
     <form class="agent-chat-form" autocomplete="off">
       <textarea class="agent-chat-input" id="agent-chat-input" rows="1"
-             name="message" maxlength="2000" required></textarea>
-      <button class="agent-chat-submit" type="submit">→</button>
+             maxlength="2000" required aria-label="Message"></textarea>
+      <button class="agent-chat-submit" type="submit" aria-label="Send">→</button>
     </form>
   </section>
 `;
@@ -132,7 +132,7 @@ export function initChat(agentUrl: string): void {
 
     msgState.set(el, { plainText: text, body });
     messages.appendChild(el);
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
     return el;
   };
 
@@ -157,7 +157,7 @@ export function initChat(agentUrl: string): void {
     msgState.set(wrap, { plainText: "", body: greetingP });
 
     messages.appendChild(wrap);
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
 
     const streamer = makeStreamer(wrap, msgState, messages);
     void streamGreet(
@@ -212,10 +212,35 @@ export function initChat(agentUrl: string): void {
     }
   };
 
+  type VK = { overlaysContent: boolean };
+  const vk = (navigator as unknown as { virtualKeyboard?: VK }).virtualKeyboard;
+  const useVK = vk != null;
+  const vv = window.visualViewport;
+  let vvRaf = 0;
+  const updateKbOffset = (): void => {
+    if (!vv) return;
+    cancelAnimationFrame(vvRaf);
+    vvRaf = requestAnimationFrame(() => {
+      const offset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      document.documentElement.style.setProperty("--kb-offset", `${offset}px`);
+      messages.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
+    });
+  };
+
   const toggleDrawer = async (open: boolean): Promise<void> => {
     drawer.hidden = !open;
     bubble.setAttribute("aria-expanded", String(open));
     document.body.classList.toggle("agent-chat-open", open);
+    if (useVK) vk!.overlaysContent = open;
+    if (open && vv) {
+      vv.addEventListener("resize", updateKbOffset);
+      vv.addEventListener("scroll", updateKbOffset);
+      updateKbOffset();
+    } else if (vv) {
+      vv.removeEventListener("resize", updateKbOffset);
+      vv.removeEventListener("scroll", updateKbOffset);
+      document.documentElement.style.setProperty("--kb-offset", "0px");
+    }
     if (!open) return;
     input.focus();
     if (messages.childElementCount > 0) return;
