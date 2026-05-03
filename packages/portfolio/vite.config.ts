@@ -55,10 +55,7 @@ async function loadDataFile<S extends v.GenericSchema>(
 
   let body: string;
   try {
-    const headers: Record<string, string> = {
-      "User-Agent":
-        "Mozilla/5.0 (compatible; moorthyptm-portfolio-build/1.0; +https://github.com/moorthyptm/moorthyptm.github.io)",
-    };
+    const headers: Record<string, string> = {};
     if (cache?.etag) headers["If-None-Match"] = cache.etag;
     const res = await fetch(url, { headers, signal: ctrl.signal });
 
