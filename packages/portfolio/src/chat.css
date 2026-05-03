@@ -315,8 +315,7 @@
     );
     transition: padding-bottom 150ms ease-out;
   }
-  body.agent-chat-open .agent-chat-bubble,
-  body.agent-chat-open [data-magic-toggle] {
+  body.agent-chat-open .agent-chat-bubble {
     display: none;
   }
   body.agent-chat-open,

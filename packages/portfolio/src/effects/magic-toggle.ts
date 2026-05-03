@@ -85,6 +85,9 @@ const STORAGE_KEY = "magic-mode";
     [data-magic-toggle]:not(.is-on) .glow {
       opacity: 0.25;
     }
+    @media (max-width: 640px) {
+      [data-magic-toggle] { display: none; }
+    }
   `;
   document.head.appendChild(style);
 
