@@ -135,13 +135,13 @@ export default defineConfig(async ({ command }) => {
   if (command === "build" && !process.env.PORTFOLIO_AGENT_ENDPOINT) {
     throw new Error(
       "[portfolio build] PORTFOLIO_AGENT_ENDPOINT is required for `vite build`. " +
-        "Set it (e.g. https://agent.moorthyptm.com) or run `vite` (dev) instead. " +
+        "Set it (e.g. https://agent-ten-nu.vercel.app) or run `vite` (dev) instead. " +
         "Building without it ships a dist that points at localhost:8787.",
     );
   }
   const agentEndpoint =
     process.env.PORTFOLIO_AGENT_ENDPOINT ??
-    (command === "serve" ? "http://localhost:8787" : "https://agent.moorthyptm.com");
+    (command === "serve" ? "http://localhost:8787" : "https://agent-ten-nu.vercel.app");
 
   const [profile, workData, experienceData, communityData] = await Promise.all([
     loadDataFile("profile.json", agentEndpoint, ProfileSchema),

@@ -49,7 +49,7 @@ pnpm --filter @moorthyptm/portfolio typecheck   # tsc --noEmit
 The chat widget posts to an external agent over SSE. The origin is configured in `index.html`:
 
 ```html
-<meta name="agent-url" content="https://agent.moorthyptm.com" />
+<meta name="agent-url" content="https://agent-ten-nu.vercel.app" />
 ```
 
 Remove the meta tag (or leave the `content` empty) to disable the widget at build time.

@@ -15,7 +15,7 @@
     {
       "type": "a2a",
       "transport": "HTTP+JSON",
-      "url": "https://agent.moorthyptm.com"
+      "url": "https://agent-ten-nu.vercel.app"
     }
   ],
   "capabilities": {

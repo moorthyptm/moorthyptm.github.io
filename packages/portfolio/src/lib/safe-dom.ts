@@ -1,6 +1,6 @@
 export const ALLOWED_DOMAINS: readonly string[] = [
   "moorthyptm.github.io",
-  "agent.moorthyptm.com",
+  "agent-ten-nu.vercel.app",
 
   "linkedin.com",
   "github.com",

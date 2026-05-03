@@ -64,7 +64,7 @@ jobs:
         env:
           # Build-time fetch source for JSON; also baked into the deployed
           # page as the runtime chat endpoint.
-          PORTFOLIO_AGENT_ENDPOINT: ${{ vars.PORTFOLIO_AGENT_ENDPOINT || 'https://agent.moorthyptm.com' }}
+          PORTFOLIO_AGENT_ENDPOINT: ${{ vars.PORTFOLIO_AGENT_ENDPOINT || 'https://agent-ten-nu.vercel.app' }}
         run: pnpm --filter @moorthyptm/portfolio build
 
       - name: Verify artefacts
