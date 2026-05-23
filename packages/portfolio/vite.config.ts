@@ -1,5 +1,5 @@
 import { defineConfig, type IndexHtmlTransformContext } from "vite";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import * as v from "valibot";
@@ -269,6 +269,37 @@ export default defineConfig(async ({ command }) => {
             }
             return out;
           },
+        },
+      },
+      {
+        // Vite's default publicDir copy strips files and directories starting
+        // with "." (.nojekyll, .well-known/, .htaccess, etc). We need these for:
+        //   - .nojekyll — disables GitHub Pages' Jekyll processing
+        //   - .well-known/agent-card.json — A2A protocol agent discovery
+        //   - .well-known/security.txt — RFC 9116 security contact
+        // Explicit copy step runs before the token injection plugin below.
+        name: "copy-dotfile-publics",
+        apply: "build",
+        writeBundle() {
+          const srcPublic = resolve(__dirname, "src/public");
+          const outDir = resolve(__dirname, "dist");
+          function copyRecursive(src: string, dest: string): void {
+            if (!existsSync(src)) return;
+            const stat = statSync(src);
+            if (stat.isDirectory()) {
+              mkdirSync(dest, { recursive: true });
+              for (const entry of readdirSync(src)) {
+                copyRecursive(resolve(src, entry), resolve(dest, entry));
+              }
+            } else {
+              const buf = readFileSync(src);
+              writeFileSync(dest, buf);
+            }
+          }
+          for (const entry of readdirSync(srcPublic)) {
+            if (!entry.startsWith(".")) continue;
+            copyRecursive(resolve(srcPublic, entry), resolve(outDir, entry));
+          }
         },
       },
       {
