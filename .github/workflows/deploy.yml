@@ -72,6 +72,8 @@ jobs:
           test -f packages/portfolio/dist/index.html
           test -d packages/portfolio/dist/assets
           test -f packages/portfolio/dist/robots.txt
+          test -f packages/portfolio/dist/.nojekyll
+          test -f packages/portfolio/dist/.well-known/agent-card.json
           du -sh packages/portfolio/dist
 
       - name: Security audit
@@ -91,6 +93,7 @@ jobs:
         with:
           path: ./packages/portfolio/dist
           retention-days: 1
+          include-hidden-files: true
 
   deploy:
     name: Deploy
